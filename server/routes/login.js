@@ -3,7 +3,7 @@ var router = express.Router();
 const bcrypt = require("bcrypt");
 
 /* POST user login credentials */
-app.post("/", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   // search for user's email in database
   //const user = ...
 
