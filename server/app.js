@@ -9,7 +9,8 @@ var usersRouter = require("./routes/users");
 var loginRouter = require("./routes/login");
 
 var app = express();
-
+import mongoose from "mongoose";
+mongoose.connect("mongodb+srv://wezong:<hack24fall12345>@hackproject.akopa.mongodb.net/?retryWrites=true&w=majority&appName=hackproject");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
