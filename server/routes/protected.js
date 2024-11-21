@@ -6,7 +6,7 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get("/", isLoggedIn, (req, res) => {
-  res.send("protected route");
+  res.send(`Hello ${req.user.displayName}`);
 });
 
 module.exports = router;

@@ -38,4 +38,13 @@ router.get("/failure", (req, res) => {
   res.send("Error: Account login failed.");
 });
 
+router.get("/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.send("Goodbye");
+  });
+});
+
 module.exports = router;
