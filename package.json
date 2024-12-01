@@ -9,5 +9,13 @@
   "type":"module",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "express-session": "^1.18.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth2": "^0.2.0"
+  }
 }
