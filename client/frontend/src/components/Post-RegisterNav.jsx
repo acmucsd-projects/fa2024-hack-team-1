@@ -20,6 +20,7 @@ function PostRegisterNav() {
       MuiButton: {
         defaultProps: {
           disableRipple: true,
+          disableElevation: true,
         },
         styleOverrides: {
           root: {
