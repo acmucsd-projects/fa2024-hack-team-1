@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import './IntroNavbar.css';
+import './Pre-register_Nav.css';
 
 function IntroNavbar(){
     const theme = createTheme({
@@ -8,6 +8,11 @@ function IntroNavbar(){
             darkGreen: {
                 main: '#003E33',
             },
+        },
+        typography: {
+            button: {
+                textTransform: 'none',
+            }
         },
         components:{
             MuiButton: {
@@ -17,11 +22,12 @@ function IntroNavbar(){
                 },
                 styleOverrides: {
                     root: {
-                        "fontFamily": `"League Spartan", `,
+                        "fontFamily": `"League Spartan" `,
                         "&:hover": {
                             "textShadow": "2px 2px 5px rgba(0, 0, 0, 0.2)",
                             "backgroundColor": "rgba(0, 0, 0, 0)",
                         },
+                        "fontSize": "20px"
                     }
                 },
             }
@@ -33,10 +39,7 @@ function IntroNavbar(){
         <ThemeProvider theme={theme}>
             <div class="bar">
                 <div class="logo">
-                    <pre>
-                        rendez
-                        view
-                    </pre>
+                    <img src="/public/logofulltransparent.png"/>
                 </div>
                 <ul>
                     <Button variant="text" color="darkGreen">About</Button>

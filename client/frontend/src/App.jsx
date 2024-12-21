@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import About from './pages/About'
+import About from './pre-register-pages/About'
 
 function App() {
   return (

@@ -1,0 +1,23 @@
+.heroText{
+    font-size: 500%;
+    background: linear-gradient(to right, #00281E, #005873, #018E6A,  #AFD450);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: fit-content;
+    block-size: fit-content;
+}
+
+.texts{
+    font-family: "League Spartan";
+    color: #00281E;
+    display: flex;
+    flex-direction: column;
+    margin-left: 23.5%;
+    margin-top: 9.3%;
+}
+
+.desc{
+    font-family: "Maven Pro";
+}
