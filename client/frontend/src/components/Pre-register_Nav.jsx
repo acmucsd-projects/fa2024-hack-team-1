@@ -1,6 +1,7 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import './Pre-register_Nav.css';
+import { Link } from 'react-router-dom';
 
 function IntroNavbar(){
     const theme = createTheme({
@@ -42,7 +43,8 @@ function IntroNavbar(){
                     <img src="/public/logofulltransparent.png"/>
                 </div>
                 <ul>
-                    <Button variant="text" color="darkGreen">About</Button>
+                    <Button variant="text" color="darkGreen" component={Link} to="/about">About</Button>
+                    <Button variant="text" color="darkGreen" component={Link} to="/">Home</Button>
                     <Button variant="text" color="darkGreen">Sign In</Button>
                 </ul>
             </div>

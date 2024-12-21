@@ -1,0 +1,66 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f9f9f9; /* or white if you prefer */
+  }
+  
+  .main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  /* CURRENT GROUP SECTION */
+  .group-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .row {
+    display: flex;
+    gap: 20px;
+  }
+  
+  /* The boxes for notifications & people */
+  .notification-box,
+  .people-box {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-height: 200px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  /* SUGGESTED GROUPS SECTION */
+  .suggested-groups {
+    margin-top: 60px;
+  }
+  
+  .suggested-groups h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle {
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+  
+  .group-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    min-height: 220px;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
