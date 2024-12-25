@@ -139,11 +139,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// database
+app.use((req, res, next) => {
+  req.db = mongoose;
+  next();
+})
+
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);
 app.use("/google", googleRouter);
-app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
