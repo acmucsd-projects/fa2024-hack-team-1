@@ -9,16 +9,19 @@ function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
 }
 
-router.get("/", (req, res) => {
-    const result = Event.virtual(req.body.eventID).get(function() {
+router.get("/", async (req, res) => {
+    /*const result = Event.virtual(req.body.eventID).get(function() {
         let eventName = "";
         if(this.name) {
             eventName = this.name;
         }
         return eventName;
-    });
+    });*/
 
-    res.status(201).send(result);
+    const result = await Event.findOne({});
+    const jsond = await result.toJSON();
+
+    await res.status(201).send(jsond);
 })
 
 module.exports = router;

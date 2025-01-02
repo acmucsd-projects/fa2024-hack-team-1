@@ -11,6 +11,7 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var protectedRouter = require("./routes/protected");
 var googleRouter = require("./routes/google");
+var eventRouter = require("./routes/event.js");
 
 var app = express();
 const mongoose = require("mongoose");
@@ -149,6 +150,7 @@ app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);
 app.use("/google", googleRouter);
+app.use("/event", eventRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
