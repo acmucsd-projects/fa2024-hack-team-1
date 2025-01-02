@@ -15,6 +15,8 @@ var googleRouter = require("./routes/google");
 var app = express();
 const mongoose = require("mongoose");
 const User = require("./schema/users.js");
+const Event = require("./schema/events.js");
+const Chat = require("./schema/chats.js");
 
 app.use(session({ secret: process.env["PASSPORT_SECRET"] }));
 app.use(passport.initialize());
@@ -117,7 +119,7 @@ mongoose.connection.on("error", (err) => {
 
 run()
 async function run(){
-  await mongoose.connect("mongodb+srv://wezong:hack24fall12345@hackproject.akopa.mongodb.net/?retryWrites=true&w=majority&appName=hackproject");
+  await mongoose.connect(process.env.DB_URL);
   console.log("started");
   await newUser.save();
   await Event.insertMany(testEvents);
