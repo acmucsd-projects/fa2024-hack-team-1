@@ -2,26 +2,28 @@ var express = require("express");
 var router = express.Router();
 const Event = require("../schema/events.js");
 
-// NOT BEEN ABLE TO CHECK IF THIS WORKS YET
-
 // implement check for private events
 function isLoggedIn(req, res, next) {
     req.user ? next() : res.sendStatus(401);
 }
 
 router.get("/", async (req, res) => {
-    /*const result = Event.virtual(req.body.eventID).get(function() {
-        let eventName = "";
-        if(this.name) {
-            eventName = this.name;
-        }
-        return eventName;
-    });*/
+
+    const id = req.body.eventID;
+
+    const result = await Event.findById(id).exec();
+
+    const resultJSON = await result.toJSON();
+
+    await res.status(201).send(resultJSON);
+})
+
+router.get("/test", async(req, res) => {
 
     const result = await Event.findOne({});
-    const jsond = await result.toJSON();
+    const resultJSON = await result.toJSON();
 
-    await res.status(201).send(jsond);
+    await res.status(201).send(resultJSON);
 })
 
 module.exports = router;
