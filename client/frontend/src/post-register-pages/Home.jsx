@@ -7,8 +7,8 @@ import './Home.css';
 
 function Home() {
   const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
-  const [loading, setLoading] = useState(true);        // Track loading
-  const [error, setError] = useState(null);            // Track errors (optional)
+  const [loading, setLoading] = useState(true);    
+  const [error, setError] = useState(null);           
 
   useEffect(() => {
     async function fetchSuggestedGroups() {
@@ -20,13 +20,11 @@ function Home() {
         // Make the request
         const response = await axios.get('http://localhost:3001/event/test');
         
-        // Save data to state
         setSuggestedGroupsData(response.data);
       } catch (err) {
         console.error('Error fetching suggested groups:', err);
         setError('Unable to fetch suggested groups.');
       } finally {
-        // Stop loading
         setLoading(false);
       }
     }
@@ -34,7 +32,7 @@ function Home() {
     fetchSuggestedGroups();
   }, []);
 
-  // If still loading, show a loader/spinner or a "Loading..." text
+  // Still loading
   if (loading) {
     return (
       <>
