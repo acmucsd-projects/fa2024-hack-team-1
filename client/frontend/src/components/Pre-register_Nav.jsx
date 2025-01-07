@@ -44,7 +44,6 @@ function IntroNavbar(){
                 </div>
                 <ul>
                     <Button variant="text" color="darkGreen" component={Link} to="/">About</Button>
-                    <Button variant="text" color="darkGreen" component={Link} to="/home">Home</Button>
                     <Button variant="text" color="darkGreen">Sign In</Button>
                 </ul>
             </div>
