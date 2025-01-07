@@ -1,26 +1,65 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import PostRegisterNav from '../components/Post-RegisterNav';
 import SuggestedGroupCard from '../components/SuggestedGroupCard';
 import './Home.css';
 
+
 function Home() {
   const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
+  const [loading, setLoading] = useState(true);        // Track loading
+  const [error, setError] = useState(null);            // Track errors (optional)
 
   useEffect(() => {
     async function fetchSuggestedGroups() {
       try {
-        const response = await axios.get('http://localhost:3001/event/test', { // Implement backend data group
-        });
+        // Start loading
+        setLoading(true);
+        setError(null);
+
+        // Make the request
+        const response = await axios.get('http://localhost:3001/event/test');
+        
+        // Save data to state
         setSuggestedGroupsData(response.data);
-      } catch (error) {
-        console.error('Error fetching suggested groups:', error);
+      } catch (err) {
+        console.error('Error fetching suggested groups:', err);
+        setError('Unable to fetch suggested groups.');
+      } finally {
+        // Stop loading
+        setLoading(false);
       }
     }
 
     fetchSuggestedGroups();
   }, []);
 
+  // If still loading, show a loader/spinner or a "Loading..." text
+  if (loading) {
+    return (
+      <>
+        <PostRegisterNav />
+        <div className="home-container">
+          <h2>Loading Suggested Groups...</h2>
+        </div>
+      </>
+    );
+  }
+
+  // If there was an error, show an error message
+  if (error) {
+    return (
+      <>
+        <PostRegisterNav />
+        <div className="home-container">
+          <h2>Error: {error}</h2>
+        </div>
+      </>
+    );
+  }
+
   return (
+    
     <div className="home-container">
       <PostRegisterNav />
 
@@ -49,12 +88,12 @@ function Home() {
           <div className="groups-grid">
             {suggestedGroupsData.map(group => (
               <SuggestedGroupCard
-                key={group.id}
-                title={group.title}
-                hostInfo={group.hostInfo}
+                key={group._id}
+                // title={group.title}
+                // hostInfo={group.hostInfo}
                 location={group.location}
-                pricePerPerson={group.pricePerPerson}
-                nights={group.nights}
+                pricePerPerson={group.budget}
+                nights={group.personCount}
               />
             ))}
           </div>
