@@ -1,39 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import PostRegisterNav from '../components/Post-RegisterNav';
 import SuggestedGroupCard from '../components/SuggestedGroupCard';
 import './Home.css';
 
+
 function Home() {
-  // mock data for example
-  const suggestedGroupsData = [
-    {
-      id: 1,
-      title: 'Title 1',
-      hostInfo: 'Host (0/0)',
-      location: 'Location 1',
-      pricePerPerson: '$100 / Person',
-      nights: '2 nights',
-    },
-    {
-      id: 2,
-      title: 'Title 2',
-      hostInfo: 'Host (1/3)',
-      location: 'Location 2',
-      pricePerPerson: '$150 / Person',
-      nights: '3 nights',
-    },
-    {
-      id: 3,
-      title: 'Title 3',
-      hostInfo: 'Host (2/4)',
-      location: 'Location 3',
-      pricePerPerson: '$80 / Person',
-      nights: '1 night',
-    }, 
-    // etc.
-  ];
+  const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
+  const [loading, setLoading] = useState(true);    
+  const [error, setError] = useState(null);           
+
+  useEffect(() => {
+    async function fetchSuggestedGroups() {
+      try {
+        // Start loading
+        setLoading(true);
+        setError(null);
+
+        // Make the request
+        const response = await axios.get('http://localhost:3001/event/test');
+        
+        setSuggestedGroupsData(response.data);
+      } catch (err) {
+        console.error('Error fetching suggested groups:', err);
+        setError('Unable to fetch suggested groups.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchSuggestedGroups();
+  }, []);
+
+  // Still loading
+  if (loading) {
+    return (
+      <>
+        <PostRegisterNav />
+        <div className="home-container">
+          <h2>Loading Suggested Groups...</h2>
+        </div>
+      </>
+    );
+  }
+
+  // If there was an error, show an error message
+  if (error) {
+    return (
+      <>
+        <PostRegisterNav />
+        <div className="home-container">
+          <h2>Error: {error}</h2>
+        </div>
+      </>
+    );
+  }
 
   return (
+    
     <div className="home-container">
       <PostRegisterNav />
 
@@ -62,12 +86,12 @@ function Home() {
           <div className="groups-grid">
             {suggestedGroupsData.map(group => (
               <SuggestedGroupCard
-                key={group.id}
-                title={group.title}
-                hostInfo={group.hostInfo}
+                key={group._id}
+                // title={group.title}
+                // hostInfo={group.hostInfo}
                 location={group.location}
-                pricePerPerson={group.pricePerPerson}
-                nights={group.nights}
+                pricePerPerson={group.budget}
+                nights={group.personCount}
               />
             ))}
           </div>
