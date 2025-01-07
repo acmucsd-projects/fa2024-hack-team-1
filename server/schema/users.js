@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema, schema} = mongoose;
-const profileSchema = new mongoose.Schema({
+const profileSchema = new Schema({
     location:String,
     profilePic:String,
     name:String,
