@@ -4,34 +4,21 @@ import SuggestedGroupCard from '../components/SuggestedGroupCard';
 import './Home.css';
 
 function Home() {
-  // mock data for example
-  const suggestedGroupsData = [
-    {
-      id: 1,
-      title: 'Title 1',
-      hostInfo: 'Host (0/0)',
-      location: 'Location 1',
-      pricePerPerson: '$100 / Person',
-      nights: '2 nights',
-    },
-    {
-      id: 2,
-      title: 'Title 2',
-      hostInfo: 'Host (1/3)',
-      location: 'Location 2',
-      pricePerPerson: '$150 / Person',
-      nights: '3 nights',
-    },
-    {
-      id: 3,
-      title: 'Title 3',
-      hostInfo: 'Host (2/4)',
-      location: 'Location 3',
-      pricePerPerson: '$80 / Person',
-      nights: '1 night',
-    }, 
-    // etc.
-  ];
+  const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
+
+  useEffect(() => {
+    async function fetchSuggestedGroups() {
+      try {
+        const response = await axios.get('http://localhost:3001/event/test', { // Implement backend data group
+        });
+        setSuggestedGroupsData(response.data);
+      } catch (error) {
+        console.error('Error fetching suggested groups:', error);
+      }
+    }
+
+    fetchSuggestedGroups();
+  }, []);
 
   return (
     <div className="home-container">
