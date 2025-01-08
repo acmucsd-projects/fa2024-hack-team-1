@@ -64,10 +64,10 @@ function SurveyBox({ closeSurvey }) {
                 end: dateRange?.[1]?.toISOString(),  
                 timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
             },
-            budget,
+            budget: budget,
             personCount: groupSize,
-            rendezvousName,
-            description,
+            name: rendezvousName,
+            description: description,
         };
     
         try {
