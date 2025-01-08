@@ -12,6 +12,7 @@ const timeFrameSchema = new Schema({
 })
 const eventSchema = new Schema({
     tags: [{type:String}],
+    users: [{type:String}],
     location: String,
     timeFrame: timeFrameSchema,
     budget: Number,

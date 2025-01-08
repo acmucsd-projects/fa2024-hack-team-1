@@ -29,7 +29,8 @@ router.get("/test", async(req, res) => {
 router.post("/create", async(req, res) => {
     const newEvent = new Event({
         tags: req.body.tags,
-        location: req.body.locatoin,
+        users: req.body.users,
+        location: req.body.location,
         timeFrame: req.body.timeFrame,
         budget: req.body.budget,
         personCount: req.body.personCount,
