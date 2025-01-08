@@ -10,7 +10,7 @@ import Settings from './post-register-pages/Settings';
 import Notifications from './post-register-pages/Notifications';
 import { ThemeProvider } from '@emotion/react';
 import { CustomTheme } from './Themes';
-import PathSelection from './pre-register-pages/PathSelection';
+import PathSelection from './post-register-pages/PathSelection';
 
 function App() {
   return (
