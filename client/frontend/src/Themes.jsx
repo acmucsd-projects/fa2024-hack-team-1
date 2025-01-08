@@ -18,7 +18,7 @@ const CustomTheme = createTheme({
         h1: {
             fontFamily: 'League Spartan',
             fontSize: '40px',
-            color: '#003E33'
+            color: '#003E33',
         },
 
         h2: {
@@ -77,6 +77,11 @@ const CustomTheme = createTheme({
 
             ]
         },
+        MuiTextField: {
+            defaultProps: {
+                autoComplete: 'off',
+            }
+        }
     },
 });
 
