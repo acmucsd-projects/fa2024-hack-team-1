@@ -5,7 +5,7 @@ import SuggestedGroupCard from '../components/SuggestedGroupCard';
 import './Home.css';
 
 
-function Home() {
+function Groups() {
   const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
   const [loading, setLoading] = useState(true);    
   const [error, setError] = useState(null);           
@@ -101,4 +101,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Groups;

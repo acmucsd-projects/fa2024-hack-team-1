@@ -44,7 +44,7 @@ function IntroNavbar(){
                 </div>
                 <ul>
                     <Button variant="text" color="darkGreen" component={Link} to="/">About</Button>
-                    <Button variant="text" color="darkGreen">Sign In</Button>
+                    <Button variant="text" color="darkGreen" component={Link} to="/home">Sign In</Button>
                 </ul>
             </div>
         </ThemeProvider>

@@ -43,13 +43,13 @@ function PostRegisterNav() {
           <div className="logo">
             <img src="/public/logofulltransparent.png" alt="Logo" />
           </div>
-          <Button variant="text" color="darkGreen" component={Link} to="/">
+          <Button variant="text" color="darkGreen" component={Link} to="/home">
             Home
           </Button>
           <Button variant="text" color="darkGreen" component={Link} to="/create-group">
             Create Group
           </Button>
-          <Button variant="text" color="darkGreen" component={Link} to="/groups">
+          <Button variant="text" color="darkGreen" component={Link} to="/group">
             Groups
           </Button>
         </div>
