@@ -1,26 +1,19 @@
-import { Box, Typography, Button, Slider, TextField, IconButton } from '@mui/material';
+import { Box, Typography, Button, Slider, TextField } from '@mui/material';
 import Calendar from 'react-calendar';
-import { useState, useRef } from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import { useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
+import axios from 'axios';
 
 function SurveyBox({ closeSurvey }) {
     const [step, setStep] = useState(1);
     const [location, setLocation] = useState('');
     const [dateRange, setDateRange] = useState(null); // Start and end dates
     const [groupSize, setGroupSize] = useState(1);
+    const [budget, setBudget] = useState(100); // For the budget slider
     const [selectedTags, setSelectedTags] = useState([]);
     const [customTag, setCustomTag] = useState('');
-    const [description, setDescription] = useState(''); // For the description
-    const [transportLinks, setTransportLinks] = useState(['']);
-    const [stayLinks, setStayLinks] = useState(['']);
     const [rendezvousName, setRendezvousName] = useState('');
-    const [coverImage, setCoverImage] = useState(null);
-    const [otherImages, setOtherImages] = useState([]);
-
-    const coverImageRef = useRef(null);
-    const otherImagesRef = useRef(null);
+    const [description, setDescription] = useState('');
 
     const tags = [
         'Snowboarding',
@@ -46,12 +39,8 @@ function SurveyBox({ closeSurvey }) {
             alert('Please select at least one tag!');
             return;
         }
-        if (step === 4 && !description) {
-            alert('Please provide a short description!');
-            return;
-        }
-        if (step === 6 && (!rendezvousName || !coverImage)) {
-            alert('Please provide a rendezvous name and cover image!');
+        if (step === 4 && (!rendezvousName || !description)) {
+            alert('Please provide a name and description!');
             return;
         }
         setStep(step + 1);
@@ -61,53 +50,26 @@ function SurveyBox({ closeSurvey }) {
         setStep(step - 1);
     };
 
-    const handleSubmit = () => {
-        console.log('Survey completed with data:', {
+    const handleSubmit = async () => {
+        const data = {
             location,
             dateRange,
             groupSize,
+            budget,
             selectedTags,
             customTag,
-            description,
-            transportLinks,
-            stayLinks,
             rendezvousName,
-            coverImage,
-            otherImages,
-        });
-        closeSurvey();
-    };
+            description,
+        };
 
-    // Handlers for transportation links
-    const handleTransportLinkChange = (e, index) => {
-        const updatedLinks = [...transportLinks];
-        updatedLinks[index] = e.target.value;
-        setTransportLinks(updatedLinks);
-    };
-
-    const handleAddTransportLink = () => {
-        setTransportLinks([...transportLinks, '']);
-    };
-
-    const handleRemoveTransportLink = (index) => {
-        const updatedLinks = transportLinks.filter((_, i) => i !== index);
-        setTransportLinks(updatedLinks);
-    };
-
-    // Handlers for stay links
-    const handleStayLinkChange = (e, index) => {
-        const updatedLinks = [...stayLinks];
-        updatedLinks[index] = e.target.value;
-        setStayLinks(updatedLinks);
-    };
-
-    const handleAddStayLink = () => {
-        setStayLinks([...stayLinks, '']);
-    };
-
-    const handleRemoveStayLink = (index) => {
-        const updatedLinks = stayLinks.filter((_, i) => i !== index);
-        setStayLinks(updatedLinks);
+        try {
+            const response = await axios.post('https://your-backend-api.com/survey', data);
+            console.log('Survey submitted successfully:', response.data);
+            closeSurvey();
+        } catch (error) {
+            console.error('Error submitting survey:', error);
+            alert('Failed to submit the survey. Please try again.');
+        }
     };
 
     return (
@@ -191,6 +153,24 @@ function SurveyBox({ closeSurvey }) {
                     <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
                         (Not Including Yourself)
                     </Typography>
+                    <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
+                        Adjust Your Budget:
+                    </Typography>
+                    <Slider
+                        value={budget}
+                        onChange={(e, value) => setBudget(value)}
+                        min={50}
+                        max={5000}
+                        step={50}
+                        marks={[
+                            { value: 50, label: '$50' },
+                            { value: 5000, label: '$5000+' },
+                        ]}
+                        sx={{ mb: 2 }}
+                    />
+                    <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
+                        Budget is in USD
+                    </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button variant="outlined" onClick={handlePrevious}>
                             Back
@@ -266,21 +246,28 @@ function SurveyBox({ closeSurvey }) {
                 </>
             )}
 
-            {/* Description Step */}
+            {/* Description & Name Step */}
             {step === 4 && (
                 <>
                     <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
-                        Description
+                        Final Details
                     </Typography>
                     <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Type out a short description of your Rendezvous for your future members to see:
+                        Provide a name and description for your Rendezvous:
                     </Typography>
                     <TextField
-                        placeholder="Ex: Discover the breathtaking beauty of the Swiss Alps..."
+                        placeholder="Enter Rendezvous Name"
+                        value={rendezvousName}
+                        onChange={(e) => setRendezvousName(e.target.value)}
+                        fullWidth
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        placeholder="Enter a short description of your Rendezvous"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         multiline
-                        rows={6}
+                        rows={4}
                         fullWidth
                         sx={{ mb: 2 }}
                     />
@@ -288,161 +275,7 @@ function SurveyBox({ closeSurvey }) {
                         <Button variant="outlined" onClick={handlePrevious}>
                             Back
                         </Button>
-                        <Button variant="contained" onClick={handleNext}>
-                            Next
-                        </Button>
-                    </Box>
-                </>
-            )}
-
-            {/* Transportation & Stays Step */}
-            {step === 5 && (
-                <>
-                    <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
-                        Transportation & Stays
-                    </Typography>
-                    <Typography sx={{ mb: 2 }}>
-                        Paste links to any transportation services or accommodations you plan to use:
-                    </Typography>
-                    <Box sx={{ mb: 3 }}>
-                        <Typography sx={{ mb: 1 }}>
-                            Paste Links to any Transportation Services you Plan to Use:
-                        </Typography>
-                        {transportLinks.map((link, index) => (
-                            <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                <TextField
-                                    placeholder="Paste here"
-                                    value={link}
-                                    onChange={(e) => handleTransportLinkChange(e, index)}
-                                    fullWidth
-                                    sx={{ mr: 1 }}
-                                />
-                                <IconButton color="error" onClick={() => handleRemoveTransportLink(index)}>
-                                    <RemoveIcon />
-                                </IconButton>
-                            </Box>
-                        ))}
-                        <Button
-                            startIcon={<AddIcon />}
-                            variant="outlined"
-                            onClick={handleAddTransportLink}
-                        >
-                            Add Transportation Link
-                        </Button>
-                    </Box>
-                    <Box sx={{ mb: 3 }}>
-                        <Typography sx={{ mb: 1 }}>
-                            Paste Links to any Airbnbs or Hotels you Plan to Use:
-                        </Typography>
-                        {stayLinks.map((link, index) => (
-                            <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                <TextField
-                                    placeholder="Paste here"
-                                    value={link}
-                                    onChange={(e) => handleStayLinkChange(e, index)}
-                                    fullWidth
-                                    sx={{ mr: 1 }}
-                                />
-                                <IconButton color="error" onClick={() => handleRemoveStayLink(index)}>
-                                    <RemoveIcon />
-                                </IconButton>
-                            </Box>
-                        ))}
-                        <Button
-                            startIcon={<AddIcon />}
-                            variant="outlined"
-                            onClick={handleAddStayLink}
-                        >
-                            Add Stay Link
-                        </Button>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="outlined" onClick={handlePrevious}>
-                            Back
-                        </Button>
-                        <Button variant="contained" onClick={handleNext}>
-                            Next
-                        </Button>
-                    </Box>
-                </>
-            )}
-
-            {/* Rendezvous Cover & Title Step */}
-            {step === 6 && (
-                <>
-                    <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
-                        Almost Done!
-                    </Typography>
-                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Provide a name for your Rendezvous and upload relevant images:
-                    </Typography>
-                    <Box sx={{ mb: 3 }}>
-                        <Typography sx={{ mb: 1 }}>Name Your Rendezvous:</Typography>
-                        <TextField
-                            placeholder="Ex: A Fun Day at the Beach"
-                            value={rendezvousName}
-                            onChange={(e) => setRendezvousName(e.target.value)}
-                            fullWidth
-                            sx={{ mb: 2 }}
-                        />
-                    </Box>
-                    <Box sx={{ mb: 3 }}>
-                        <Typography sx={{ mb: 1 }}>Cover Image:</Typography>
-                        <Box
-                            sx={{
-                                height: '150px',
-                                border: '2px dashed #ccc',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                cursor: 'pointer',
-                                mb: 3,
-                            }}
-                            onClick={() => coverImageRef.current.click()}
-                        >
-                            <Typography>+</Typography>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                ref={coverImageRef}
-                                onChange={(e) => setCoverImage(e.target.files[0])}
-                            />
-                        </Box>
-                        <Typography sx={{ mb: 1 }}>Other Images:</Typography>
-                        <Box
-                            sx={{
-                                height: '150px',
-                                border: '2px dashed #ccc',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                cursor: 'pointer',
-                            }}
-                            onClick={() => otherImagesRef.current.click()}
-                        >
-                            <Typography>+</Typography>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                style={{ display: 'none' }}
-                                ref={otherImagesRef}
-                                onChange={(e) => setOtherImages([...e.target.files])}
-                            />
-                        </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="outlined" onClick={handlePrevious}>
-                            Back
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={handleSubmit}
-                            disabled={!rendezvousName || !coverImage} // Require name and cover image
-                        >
+                        <Button variant="contained" onClick={handleSubmit}>
                             Submit
                         </Button>
                     </Box>
