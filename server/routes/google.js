@@ -5,7 +5,7 @@ const passport = require("passport");
 router.get(
   "/callback",
   passport.authenticate("google", {
-    successRedirect: "/protected",
+    successRedirect: "http://localhost:6174/home",
     failureRedirect: "/auth/failure",
   })
 );
