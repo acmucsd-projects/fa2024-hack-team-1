@@ -20,7 +20,7 @@ const User = require("./schema/users.js");
 const Event = require("./schema/events.js");
 const Chat = require("./schema/chats.js");
 
-app.use(session({ secret: process.env["PASSPORT_SECRET"] }));
+app.use(session({ secret: process.env["PASSPORT_SECRET"], resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -120,7 +120,6 @@ mongoose.connection.on("error", (err) => {
   console.error("MongoDB connection error:", err);
 });
 
-run()
 async function run(){
   await mongoose.connect(process.env.DB_URL);
   console.log("started");
@@ -129,8 +128,9 @@ async function run(){
   console.log("events good")
   await Chat.insertMany(testChats);
   console.log("chats good")
-  
 }
+
+run().catch(err => console.error(err));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -170,6 +170,12 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+// Start the server
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 module.exports = app;

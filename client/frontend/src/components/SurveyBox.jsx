@@ -2,12 +2,14 @@ import { Box, Typography, Button, Slider } from '@mui/material';
 import Calendar from 'react-calendar';
 import { useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from 'react-router-dom';
 
 function SurveyBox({ closeSurvey }) {
     const [step, setStep] = useState(1);
     const [location, setLocation] = useState('');
     const [dateRange, setDateRange] = useState(null); // Start and end dates
     const [groupSize, setGroupSize] = useState(1);
+    const navigate = useNavigate();
 
     const handleLocationChange = (e) => setLocation(e.target.value);
 
@@ -27,7 +29,7 @@ function SurveyBox({ closeSurvey }) {
         const surveyData = { location, dateRange, groupSize };
 
         try {
-            const response = await fetch('/api/survey', {
+            const response = await fetch('http://localhost:3001/api/survey', { // Update with your backend URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,6 +40,7 @@ function SurveyBox({ closeSurvey }) {
             if (response.ok) {
                 console.log('Survey data saved successfully');
                 closeSurvey();
+                navigate('/event-info'); // Redirect to the event information page
             } else {
                 console.error('Error saving survey data');
             }
