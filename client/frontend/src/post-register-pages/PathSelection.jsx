@@ -1,4 +1,4 @@
-import PostRegisterNav from '../components/Post-RegisterNav'
+import PostRegisterNave from '../components/Post-RegisterNav'
 import { Button, Typography, Container, Box, } from '@mui/material';
 import SurveyBox from '../components/SurveyBox';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ function PathSelection() {
 
     return(
         <Box>
-            <PostRegisterNav/>
+            <PostRegisterNave/>
             {showSurvey && <SurveyBox/>}
             <Container sx={{
                 display: 'flex', 

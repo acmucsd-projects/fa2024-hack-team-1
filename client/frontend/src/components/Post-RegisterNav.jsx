@@ -1,79 +1,119 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import './Post-RegisterNav.css';
+import { Button, Box, List, TextField, FilledInput} from '@mui/material';
+import { Link } from 'react-router-dom';
 
-function PostRegisterNav() {
-  const theme = createTheme({
-    palette: {
-      darkGreen: {
-        main: '#003E33',
-      },
-    },
-    typography: {
-      button: {
-        textTransform: 'none',
-      },
-    },
-    components: {
-      MuiButton: {
-        defaultProps: {
-          disableRipple: true,
-          disableElevation: true,
-        },
-        styleOverrides: {
-          root: {
-            fontFamily: 'League Spartan',
-            fontSize: '18px',
-            '&:hover': {
-              textShadow: '2px 2px 5px rgba(0, 0, 0, 0.2)',
-              backgroundColor: 'transparent',
+function PostRegisterNav(){
+    const theme = createTheme({
+        palette: {
+            darkGreen: {
+                main: '#003E33',
             },
-          },
         },
-      },
-    },
-  });
+        typography: {
+            button: {
+                textTransform: 'none',
+            }
+        },
+        components:{
+            MuiButton: {
+                defaultProps: {
+                    disableRipple: true,
+                    disableElevation: true,  
+                },
+                styleOverrides: {
+                    root: {
+                        "fontFamily": `"League Spartan" `,
+                        "&:hover": {
+                            "textShadow": "2px 2px 5px rgba(0, 0, 0, 0.2)",
+                            "backgroundColor": "rgba(0, 0, 0, 0)",
+                        },
+                        "fontSize": "20px"
+                    }
+                },
+            },
+            MuiTextField: {
+                defaultProps: {
+                    autoComplete: 'off',
+                }
+            }
+        },
+    });
 
-  return (
-    <ThemeProvider theme={theme}>
-      <div className="post-register-bar">
-        <div className="nav-left">
-          <div className="logo">
-            <img src="/public/logofulltransparent.png" alt="Logo" />
-          </div>
-          <Button variant="text" color="darkGreen" component={Link} to="/">
-            Home
-          </Button>
-          <Button variant="text" color="darkGreen" component={Link} to="/create-group">
-            Create Group
-          </Button>
-          <Button variant="text" color="darkGreen" component={Link} to="/groups">
-            Groups
-          </Button>
-        </div>
 
-        <div className="nav-center">
-          <input type="text" placeholder="Search Groups & People" />
-        </div>
+    return(
+        <ThemeProvider theme={theme}>
+            <Box sx={{
+                height: "73px",
+                backgroundColor: "#FFFFFF",
+                boxShadow: '2px 2px 10px rgba(0, 0, 0 , 0.5)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+            }}> 
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'left',
+                    alignItems: 'center',
+                }}>
+                    <Box sx={{
+                        ml: '40px',
+                        mr: '20px',
+                    }}>
+                        <img src="/public/logofulltransparent.png"/>
+                    </Box>
+    
+                    <Box sx={{
+                        bgcolor: '#003E33',
+                        width: '1.5px',
+                        height: '55px',
+                        mr: '20px'
+                    }}>
+    
+                    </Box>
+                    
+                    <List sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <Button variant="text" color="darkGreen" component={Link} to="/home" sx={{mr: '20px', }}>Home</Button>
+                        <Button variant="text" color="darkGreen">Create Group</Button>
+                    </List>
 
-        <div className="nav-right">
-          {/* Placeholder icons*/}
-          <div className="icon">
-            <Link to="/notifications">
-              <span role="img" aria-label="Notifications">🔔</span>
-            </Link>
-          </div>
-          <div className="icon">
-            <Link to="/settings">
-              <span role="img" aria-label="Profile icon">👤</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </ThemeProvider>
-  );
+                </Box>
+                <TextField label="Search: Groups" varient="outlined" style={{width: '544px',}} sx={{
+                    ".MuiInputLabel-root": {
+                        color: 'rgba(0, 62, 51, 0.4)',
+                        fontSize: '16px'
+                    },
+                    ".MuiOutlinedInput-root": {
+                        input:{
+                            fontFamily: 'Maven Pro',
+                            color: '#003E33',
+                            fontSize: '16px',
+                        },
+                        fieldset: {
+                            border: "1px solid rgba(0, 62, 51, 0.4)",
+                            borderRadius: "67px",
+                        },
+                        "&.Mui-focused fieldset": {
+                            border: "1px solid #003E33",
+                        }
+                    }
+                }}/>
+
+                <Box sx={{
+                    width: "322.75px",
+                    display: 'flex',
+                    justifyContent: 'right',
+                    alignItems: 'center',
+                }}>
+                    <img src="\ErrorPic.png" style={{width: '50px', marginRight: '40px'}}/>
+                </Box>
+
+            </Box>
+        </ThemeProvider>
+    );
 }
 
 export default PostRegisterNav;
