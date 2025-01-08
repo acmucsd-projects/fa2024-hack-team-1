@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const passport = require("passport");
+const User = require("../schema/users.js");
 require("dotenv").config();
 const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
@@ -13,9 +14,9 @@ passport.use(
       passReqToCallback: true,
     },
     function (request, accessToken, refreshToken, profile, done) {
-      /*    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
       return done(err, user);
-    });*/
+    });
       return done(null, profile);
     }
   )

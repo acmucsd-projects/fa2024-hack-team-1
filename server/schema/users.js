@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema, schema} = mongoose;
+const findOrCreate = require("mongoose-findorcreate");
 const profileSchema = new Schema({
     location:String,
     profilePic:String,
@@ -20,5 +21,8 @@ const userSchema = new Schema({
     userEvents: [{type:String}]
 
 })
+
+userSchema.plugin(findOrCreate);
+
 const User = mongoose.model("user", userSchema);
 module.exports = User;
