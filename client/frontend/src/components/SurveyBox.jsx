@@ -23,9 +23,27 @@ function SurveyBox({ closeSurvey }) {
 
     const handleGroupSizeChange = (e, value) => setGroupSize(value);
 
-    const handleSubmit = () => {
-        console.log('Survey completed with data:', { location, dateRange, groupSize });
-        closeSurvey();
+    const handleSubmit = async () => {
+        const surveyData = { location, dateRange, groupSize };
+
+        try {
+            const response = await fetch('/api/survey', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(surveyData),
+            });
+
+            if (response.ok) {
+                console.log('Survey data saved successfully');
+                closeSurvey();
+            } else {
+                console.error('Error saving survey data');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
