@@ -72,7 +72,7 @@ function SurveyBox({ closeSurvey }) {
     
         try {
             // POST request to the backend
-            const response = await axios.post('https://localhost', data);
+            const response = await axios.post('http://localhost:3001/event/create', data);
             console.log('Survey submitted successfully:', response.data);
             closeSurvey();
         } catch (error) {
