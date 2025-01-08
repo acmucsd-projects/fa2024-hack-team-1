@@ -16,101 +16,12 @@ var eventRouter = require("./routes/event.js");
 
 var app = express();
 const mongoose = require("mongoose");
-const User = require("./schema/users.js");
-const Event = require("./schema/events.js");
-const Chat = require("./schema/chats.js");
 
 app.use(session({ secret: process.env["PASSPORT_SECRET"] }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-const newUser = new User({
-  userID: "a",
-  userName: "b",
-  userPassword: "c",
-  userProfile: {
-    location: "a",
-    profilePic: "https://example.com/alex.jpg",
-    name: "John Smith",
-    preferences: ["sports", "technology"],
-    bio: {
-      age: 35,
-      sex: "Non-binary",
-      pronouns: "They/Them",
-      extraInfo: "Loves photography",
-    },
-  },
-  userEvents: ["a", "b"],
-});
-const testEvents = [
-  {
-      tags: ["birthday", "party", "celebration"],
-      location: "Chicago",
-      timeFrame: {
-          start: new Date("2024-12-01T18:00:00Z"),
-          end: new Date("2024-12-01T21:00:00Z"),
-          timeZone: "EST",
-      },
-      budget: 500,
-      personCount: 25,
-  },
-  {
-      tags: ["conference", "workshop"],
-      location: "Online (Zoom)",
-      timeFrame: {
-          start: new Date("2024-11-30T10:00:00Z"),
-          end: new Date("2024-11-30T12:00:00Z"),
-          timeZone: "PST",
-      },
-      budget: 0, // Free event
-      personCount: 100,
-  },
-  {
-      tags: ["wedding", "outdoor"],
-      location: "Golden Gate Park, San Francisco",
-      timeFrame: {
-          start: new Date("2024-06-15T15:00:00Z"),
-          end: new Date("2024-06-15T20:00:00Z"),
-          timeZone: "PST",
-      },
-      budget: 15000,
-      personCount: 200,
-  },
-];
-const testChats = [
-  {
-      messageId: "msg001",
-      sender: "user001",
-      receipient: "user002",
-      content: "Hey, are you coming to the event?",
-      timeStamp: new Date("2024-11-28T09:30:00Z"),
-      readStatus: true,
-  },
-  {
-      messageId: "msg002",
-      sender: "user002",
-      receipient: "user001",
-      content: "Yes, I’ll be there. Thanks for the invite!",
-      timeStamp: new Date("2024-11-28T09:35:00Z"),
-      readStatus: false,
-  },
-  {
-      messageId: "msg003",
-      sender: "user003",
-      receipient: "user001",
-      content: "Can you share the location again?",
-      timeStamp: new Date("2024-11-28T10:00:00Z"),
-      readStatus: false,
-  },
-  {
-      messageId: "msg004",
-      sender: "user001",
-      receipient: "user003",
-      content: "Sure, it’s Central Park, NYC.",
-      timeStamp: new Date("2024-11-28T10:05:00Z"),
-      readStatus: true,
-  },
-];
+mongoose.connect(process.env.DB_URL);
 
 mongoose.connection.on("connected", () => {
   console.log("MongoDB connected!");
@@ -119,18 +30,6 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
   console.error("MongoDB connection error:", err);
 });
-
-run()
-async function run(){
-  await mongoose.connect(process.env.DB_URL);
-  console.log("started");
-  await newUser.save();
-  await Event.insertMany(testEvents);
-  console.log("events good")
-  await Chat.insertMany(testChats);
-  console.log("chats good")
-  
-}
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

@@ -9,18 +9,16 @@ const timeFrameSchema = new Schema({
         type: Date,
         required: true,
     },
-    timeZone: {
-        type: String,
-        required: true,
-        default: "PST",
-    }
 })
 const eventSchema = new Schema({
     tags: [{type:String}],
+    users: [{type:String}],
     location: String,
     timeFrame: timeFrameSchema,
     budget: Number,
     personCount: Number,
+    name: String,
+    description: String,
 })
 const Event = mongoose.model("event", eventSchema)
 module.exports = Event

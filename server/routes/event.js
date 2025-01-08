@@ -26,4 +26,21 @@ router.get("/test", async(req, res) => {
     await res.status(201).send(resultJSON);
 })
 
+router.post("/create", async(req, res) => {
+    const newEvent = new Event({
+        tags: req.body.tags,
+        users: req.body.users,
+        location: req.body.location,
+        timeFrame: req.body.timeFrame,
+        budget: req.body.budget,
+        personCount: req.body.personCount,
+        name: req.body.name,
+        description: req.body.description,
+    })
+
+    await newEvent.save();
+
+    res.status(201).send("New event successfully created");
+})
+
 module.exports = router;
