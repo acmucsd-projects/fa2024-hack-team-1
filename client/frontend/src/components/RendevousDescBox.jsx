@@ -1,4 +1,4 @@
-import { Button, Box, Typography, } from '@mui/material';
+import { Box, Typography, Button} from '@mui/material';
 
 function RendevousDescBox() {
     return(
@@ -22,7 +22,7 @@ function RendevousDescBox() {
             {/*Rendevous Info*/}
             <Box>
 
-                <Typography varient='h2 '>Rendevous Info</Typography>
+                <Typography varient='h2'>Rendevous Info</Typography>
                 <Typography varient='h2'>People in This Rendevous</Typography>
 
                 <img/>
@@ -32,7 +32,7 @@ function RendevousDescBox() {
                     fontSize: 24
                 }}>Join Group</Button>
 
-            </Box>
+            </Box> 
             
             {/*divider*/}
             <Box sx={{

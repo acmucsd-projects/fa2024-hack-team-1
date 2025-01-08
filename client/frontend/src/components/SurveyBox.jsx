@@ -122,35 +122,39 @@ function SurveyBox({ closeSurvey }) {
                 boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
                 zIndex: 9999,
                 p: '40px',
-                width: '95%',
-                maxWidth: '600px',
-                height: '90%',
+                width: '54vw',
+                height: '80vh',
                 overflowY: 'auto',
             }}
         >
             {/* Location Step */}
             {step === 1 && (
                 <>
-                    <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
-                        Location
-                    </Typography>
-                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Click where your rendezvous will take place or enter the location below.
-                    </Typography>
-                    <TextField
-                        placeholder="Enter Location"
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        fullWidth
-                        sx={{ mb: 2 }}
-                    />
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="outlined" onClick={closeSurvey}>
-                            Cancel
-                        </Button>
-                        <Button variant="contained" onClick={handleNext}>
-                            Next
-                        </Button>
+                    <Box sx={{
+                        justifyContent
+                    }}>
+                        <Typography variant="h1" sx={{ mb: 2, textAlign: 'center' }}>
+                            Location
+                        </Typography>
+                        <Box sx={{width: '55vw', height: '1px', bgcolor: '#003E33'}}></Box>
+                        <Typography variant="h3" sx={{ mb: 2, textAlign: 'center' }}>
+                            Type Where Your Rendevous Will Take Place:
+                        </Typography>
+                        <TextField
+                            placeholder="Enter Location"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Button variant="outlined" onClick={closeSurvey}>
+                                Cancel
+                            </Button>
+                            <Button variant="contained" onClick={handleNext}>
+                                Next
+                            </Button>
+                        </Box>
                     </Box>
                 </>
             )}
