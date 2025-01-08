@@ -83,7 +83,7 @@ function PathSelection() {
                         >
                             Meet new people with a rendezvous to any destination!
                         </Typography>
-                        <Button varient="PillBox" component={Link} to="/home">
+                        <Button varient="PillBox" component={Link} to="/group">
                             Find Your Rendezvous
                         </Button>
                     </Box>
