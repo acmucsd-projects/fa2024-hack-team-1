@@ -31,11 +31,6 @@ function PostRegisterNav(){
                     }
                 },
             },
-            MuiTextField: {
-                defaultProps: {
-                    autoComplete: 'off',
-                }
-            }
         },
     });
 

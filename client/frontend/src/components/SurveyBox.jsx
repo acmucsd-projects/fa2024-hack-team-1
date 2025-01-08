@@ -84,36 +84,65 @@ function SurveyBox({ closeSurvey }) {
                 boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
                 zIndex: 9999,
                 p: '40px',
-                width: '54vw',
-                height: '80vh',
+                width: '65vw',
+                height: '65vh',
                 overflowY: 'auto',
             }}
         >
             {/* Location Step */}
             {step === 1 && (
-                <>
+                < >
+                    <Typography variant="h1" sx={{ mb: '25px', }}>
+                        Location
+                    </Typography>
                     <Box sx={{
-                        justifyContent
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column'
                     }}>
-                        <Typography variant="h1" sx={{ mb: 2, textAlign: 'center' }}>
-                            Location
-                        </Typography>
-                        <Box sx={{width: '55vw', height: '1px', bgcolor: '#003E33'}}></Box>
-                        <Typography variant="h3" sx={{ mb: 2, textAlign: 'center' }}>
+                        <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px'}}></Box>
+                        <Typography variant="h3" sx={{ mb: 2,}}>
                             Type Where Your Rendevous Will Take Place:
                         </Typography>
                         <TextField
                             placeholder="Enter Location"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
-                            fullWidth
-                            sx={{ mb: 2 }}
-                        />
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Button variant="outlined" onClick={closeSurvey}>
+                            sx={{
+                                mb: 2,
+                                width: '700px',
+                                ".MuiInputLabel-root": {
+                                    color: 'rgba(0, 62, 51, 0.4)',
+                                    fontSize: '16px'
+                                },
+                                ".MuiOutlinedInput-root": {
+                                    input:{
+                                        fontFamily: 'Maven Pro',
+                                        color: '#003E33',
+                                        fontSize: '16px',
+                                    },
+                                    fieldset: {
+                                        border: "1px solid rgba(0, 62, 51, 0.4)",
+                                        borderRadius: "67px",
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        border: "1px solid #003E33",
+                                    }
+                                }
+                        }}/>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '140px', width: '100%'}}>
+                            <Button variant="PillBox" onClick={closeSurvey} sx={{
+                                width: '200px',
+                                height: '75px',
+                                fontSize: '35px'
+                            }}>
                                 Cancel
                             </Button>
-                            <Button variant="contained" onClick={handleNext}>
+                            <Button variant="PillBox" onClick={handleNext} sx={{
+                                width: '200px',
+                                height: '75px',
+                                fontSize: '35px'
+                            }}>
                                 Next
                             </Button>
                         </Box>
@@ -124,60 +153,67 @@ function SurveyBox({ closeSurvey }) {
             {/* Logistics Step */}
             {step === 2 && (
                 <>
-                    <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+                    <Typography variant="h1" sx={{ mb: 2, }}>
                         Logistics
                     </Typography>
-                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Highlight the days of your Travel:
-                    </Typography>
-                    <Calendar
-                        onChange={setDateRange}
-                        value={dateRange}
-                        selectRange={true}
-                        sx={{ mb: 2 }}
-                    />
-                    <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
-                        Adjust the Range of People You Would Travel With:
-                    </Typography>
-                    <Slider
-                        value={groupSize}
-                        onChange={(e, value) => setGroupSize(value)}
-                        min={1}
-                        max={20}
-                        marks={[
-                            { value: 1, label: '1' },
-                            { value: 20, label: '20+' },
-                        ]}
-                        sx={{ mb: 2 }}
-                    />
-                    <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
-                        (Not Including Yourself)
-                    </Typography>
-                    <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
-                        Adjust Your Budget:
-                    </Typography>
-                    <Slider
-                        value={budget}
-                        onChange={(e, value) => setBudget(value)}
-                        min={50}
-                        max={5000}
-                        step={50}
-                        marks={[
-                            { value: 50, label: '$50' },
-                            { value: 5000, label: '$5000+' },
-                        ]}
-                        sx={{ mb: 2 }}
-                    />
-                    <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
-                        Budget is in USD
-                    </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="outlined" onClick={handlePrevious}>
-                            Back
-                        </Button>
-                        <Button variant="contained" onClick={handleNext}>
-                            Next
-                        </Button>
+                    <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column'
+                    }}>
+                        <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33'}}></Box>
+                        <Typography variant="h3" sx={{ mb: 2,}}>
+                            Type Where Your Rendevous Will Take Place:
+                        </Typography>
+                        <Calendar
+                            onChange={setDateRange}
+                            value={dateRange}
+                            selectRange={true}
+                            sx={{ mb: 2 }}
+                        />
+                        <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
+                            Adjust the Range of People You Would Travel With:
+                        </Typography>
+                        <Slider
+                            value={groupSize}
+                            onChange={(e, value) => setGroupSize(value)}
+                            min={1}
+                            max={20}
+                            marks={[
+                                { value: 1, label: '1' },
+                                { value: 20, label: '20+' },
+                            ]}
+                            sx={{ mb: 2 }}
+                        />
+                        <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
+                            (Not Including Yourself)
+                        </Typography>
+                        <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
+                            Adjust Your Budget:
+                        </Typography>
+                        <Slider
+                            value={budget}
+                            onChange={(e, value) => setBudget(value)}
+                            min={50}
+                            max={5000}
+                            step={50}
+                            marks={[
+                                { value: 50, label: '$50' },
+                                { value: 5000, label: '$5000+' },
+                            ]}
+                            sx={{ mb: 2 }}
+                        />
+                        <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
+                            Budget is in USD
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Button variant="outlined" onClick={handlePrevious}>
+                                Back
+                            </Button>
+                            <Button variant="contained" onClick={handleNext}>
+                                Next
+                            </Button>
+                        </Box>
                     </Box>
                 </>
             )}
