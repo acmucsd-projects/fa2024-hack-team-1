@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostRegisterNav from '../components/Post-RegisterNav';
 import SuggestedGroupCard from '../components/SuggestedGroupCard';
-import './Home.css';
+import RendevousDescBox from '../components/RendevousDescBox'
 
 
 function Groups() {
@@ -48,6 +48,7 @@ function Groups() {
   if (error) {
     return (
       <>
+        <RendevousDescBox />
         <PostRegisterNav />
         <div className="home-container">
           <h2>Error: {error}</h2>
@@ -60,6 +61,8 @@ function Groups() {
     
     <div className="home-container">
       <PostRegisterNav />
+
+      <RendevousDescBox />
 
       <div className="main-content">
         {/* Current Group */}

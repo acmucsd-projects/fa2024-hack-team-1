@@ -76,6 +76,18 @@ const CustomTheme = createTheme({
                 },
 
             ]
+        },
+        MuiTypography: {
+            varients: [
+                {
+                    prop: {varient: 'h2'},
+                    style: {
+                        fontFamily: 'League Spartan',
+                        fontSize: '30px',
+                        color: '#003E33'
+                    }
+                }
+            ]
         }
     },
 });
