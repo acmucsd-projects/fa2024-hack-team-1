@@ -1,8 +1,11 @@
-import Nav from '../components/Pre-register_Nav'
+import PostRegisterNav from '../components/Post-RegisterNav'
 import { Button, Typography, Container, Box, } from '@mui/material';
 import SurveyBox from '../components/SurveyBox';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+
+
+
 
 function PathSelection() {  
     const [showSurvey, setShowSurvey] = useState(false);
@@ -13,7 +16,7 @@ function PathSelection() {
 
     return(
         <Box>
-            <Nav/>
+            <PostRegisterNav/>
             {showSurvey && <SurveyBox/>}
             <Container sx={{
                 display: 'flex', 
@@ -26,7 +29,7 @@ function PathSelection() {
                     backgroundColor:'#FFFFFF', 
                     borderRadius:'30px',
                     ":hover": {
-                        filter: "drop-shadow(0px 0px 10px #000000)",
+                        filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 50%))",
                     },
                     ":hover ~ .left": {
                         filter: 'blur(10px)',
@@ -65,7 +68,7 @@ function PathSelection() {
                     backgroundColor:'#FFFFFF', 
                     borderRadius:'30px',
                     ":hover": {
-                        filter: "drop-shadow(0px 0px 10px #000000)",
+                        filter: "drop-shadow(0px 0px 10px rgba(0, 0, 0, 50%) )",
                     },
                     willChange: 'filter',
                     transition: 'filter .1s ease-out',
