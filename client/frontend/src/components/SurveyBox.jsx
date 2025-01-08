@@ -7,9 +7,9 @@ import axios from 'axios';
 function SurveyBox({ closeSurvey }) {
     const [step, setStep] = useState(1);
     const [location, setLocation] = useState('');
-    const [dateRange, setDateRange] = useState(null); // Start and end dates
+    const [dateRange, setDateRange] = useState(null); 
     const [groupSize, setGroupSize] = useState(1);
-    const [budget, setBudget] = useState(100); // For the budget slider
+    const [budget, setBudget] = useState(100); 
     const [selectedTags, setSelectedTags] = useState([]);
     const [customTag, setCustomTag] = useState('');
     const [rendezvousName, setRendezvousName] = useState('');
@@ -51,19 +51,29 @@ function SurveyBox({ closeSurvey }) {
     };
 
     const handleSubmit = async () => {
+
+        const tagsArray = [...selectedTags];
+        if (customTag) {
+            tagsArray.push(customTag);
+        }
+    
         const data = {
+            tags: tagsArray,
             location,
-            dateRange,
-            groupSize,
+            timeFrame: {
+                start: dateRange?.[0]?.toISOString(), 
+                end: dateRange?.[1]?.toISOString(),  
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
+            },
             budget,
-            selectedTags,
-            customTag,
+            personCount: groupSize,
             rendezvousName,
             description,
         };
-
+    
         try {
-            const response = await axios.post('https://your-backend-api.com/survey', data);
+            // POST request to the backend
+            const response = await axios.post('https://localhost', data);
             console.log('Survey submitted successfully:', response.data);
             closeSurvey();
         } catch (error) {
