@@ -87,7 +87,7 @@ function RendevousDescBox({ group, onClose }) {
               backgroundColor: "#F2F2F2",
             }}
           />
-          <Typography variant="body2" sx={{ lineHeight: "40px" }}>
+          <Typography variant="p" sx={{ lineHeight: "40px" }}>
             +10 others
           </Typography>
         </Box>
@@ -111,7 +111,7 @@ function RendevousDescBox({ group, onClose }) {
         </Button>
       </Box>
 
-      <Box sx={{ bgcolor: "#003033", width: "2px", height: "100%" }} />
+      <Box sx={{ bgcolor: "#003033", width: "1px", height: "100%" }} />
 
       <Box sx={{ width: "70%" }}>
         <Typography
@@ -123,7 +123,7 @@ function RendevousDescBox({ group, onClose }) {
         <Box
           sx={{
             width: "100%",
-            height: "2px",
+            height: "1px",
             backgroundColor: "#003033",
             mb: 3,
           }}
@@ -214,7 +214,7 @@ function RendevousDescBox({ group, onClose }) {
             mt: 3,
             backgroundColor: "#003E33",
             color: "#FFFFFF",
-            "&:hover": { backgroundColor: "#005F4F" },
+            "&:hover": { backgroundColor: "#005F4F", color: '#003E33'},
             width: "150px",
             height: "40px",
             alignSelf: "center",
