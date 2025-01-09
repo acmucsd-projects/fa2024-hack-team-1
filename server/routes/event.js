@@ -64,11 +64,22 @@ router.post("/join", async(req, res) => {
 
     console.log(userID);
 
-    event.users.push(userID);
+    var joinedAlready = false;
 
-    event.save();
+    event.users.map(user => {
+        if(user == userID) joinedAlready = true;
+    })
 
-    res.status(201).send("Success!");
+    if(!joinedAlready) {
+        event.users.push(userID);
+        event.save();
+        res.status(201).send("success");
+    } else {
+        res.status(201).send("already-joined");
+    }
+
+    
+
 });
 
 router.get("/members", async(req, res) => { // request body: eventID
