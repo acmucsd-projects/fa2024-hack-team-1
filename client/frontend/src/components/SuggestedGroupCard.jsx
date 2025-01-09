@@ -68,7 +68,7 @@ function SuggestedGroupCard({
         }}>
             <Typography variant="p" display='block' sx={{gridColumnStart: 1, fontSize: '15px' }}> <strong>{location}</strong></Typography>
             <Typography variant="p" display='block' align='right' sx={{gridColumnStart: 2, fontSize: '15px' }}> ${budget} / Person</Typography>
-            <Typography variant="p" display='block' align='right' sx={{gridColumnStart: 2, gridRowStart: 2, fontSize: '15px' }}> <strong>People:</strong> {personCount}</Typography>
+            <Typography variant="p" display='block' align='left' sx={{fontSize: '15px' }}> <strong>People:</strong> {personCount}</Typography>
         </Box>
             {formattedStart && formattedEnd && (
                 <Typography variant="p" display='block' sx={{ margin: '10px auto', }}>{formattedStart} – {formattedEnd}</Typography>
