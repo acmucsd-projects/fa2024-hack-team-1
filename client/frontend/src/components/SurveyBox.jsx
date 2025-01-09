@@ -316,7 +316,7 @@ function SurveyBox({ closeSurvey }) {
                                         },
                                         fieldset: {
                                             border: "1px solid rgba(0, 62, 51, 0.4)",
-                                            borderRadius: "67px",
+                                            borderRadius: "13px",
                                         },
                                         "&.Mui-focused fieldset": {
                                             border: "1px solid #003E33",
@@ -348,7 +348,7 @@ function SurveyBox({ closeSurvey }) {
             {/* Step 4: Final Details */}
             {step === 4 && (
                 <>
-                    <Typography variant="h1" sx={{ mb: 2, textAlign: 'center' }}>
+                    <Typography variant="h1" sx={{ mb: 2, }}>
                         Final Details
                     </Typography>
                     <Box
@@ -376,7 +376,27 @@ function SurveyBox({ closeSurvey }) {
                             value={rendezvousName}
                             onChange={(e) => setRendezvousName(e.target.value)}
                             fullWidth
-                            sx={{ mb: 2 }}
+                            sx={{
+                                mb: 2,
+                                ".MuiInputLabel-root": {
+                                        color: 'rgba(0, 62, 51, 0.4)',
+                                        fontSize: '16px'
+                                },
+                                ".MuiOutlinedInput-root": {
+                                    input:{
+                                        fontFamily: 'Maven Pro',
+                                        color: '#003E33',
+                                        fontSize: '16px',
+                                    },
+                                    fieldset: {
+                                        border: "1px solid rgba(0, 62, 51, 0.4)",
+                                        borderRadius: "13px",
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        border: "1px solid #003E33",
+                                    }
+                                }
+                            }}
                         />
 
                         {/* Rendezvous Description */}
@@ -387,7 +407,27 @@ function SurveyBox({ closeSurvey }) {
                             multiline
                             rows={4}
                             fullWidth
-                            sx={{ mb: 2 }}
+                            sx={{ 
+                                mb: '42px',
+                                ".MuiInputLabel-root": {
+                                        color: 'rgba(0, 62, 51, 0.4)',
+                                        fontSize: '16px'
+                                },
+                                ".MuiOutlinedInput-root": {
+                                    input:{
+                                        fontFamily: 'Maven Pro',
+                                        color: '#003E33',
+                                        fontSize: '16px',
+                                    },
+                                    fieldset: {
+                                        border: "1px solid rgba(0, 62, 51, 0.4)",
+                                        borderRadius: "17px",
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        border: "1px solid #003E33",
+                                    }
+                                }
+                            }}
                         />
 
                         {/* Cover Image Upload */}
