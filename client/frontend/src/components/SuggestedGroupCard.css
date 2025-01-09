@@ -18,26 +18,4 @@
   height: 150px;       
   object-fit: cover;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
-
-
-  
-  .group-card-title {
-    font-size: 18px;
-    color: #003e33;
-    margin-bottom: 5px;
-  }
-  
-  .group-card-description {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 15px;
-  }
-  
-  .group-card-info p {
-    font-size: 12px;
-    margin: 5px 0;
-    color: #333;
-  }
-  
