@@ -85,6 +85,7 @@ function Groups() {
                   budget={group.budget}
                   personCount={group.personCount}
                   description={group.description}
+                  timeFrame={group.timeFrame} 
                 />
               </div>
             ))}
