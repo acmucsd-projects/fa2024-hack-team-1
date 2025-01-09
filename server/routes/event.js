@@ -43,7 +43,7 @@ router.post("/create", async(req, res) => {
     res.status(201).send("New event successfully created");
 })
 
-router.get("/join", (req, res) => {
+router.post("/join", (req, res) => {
 
     const eventID = req.body._id;
 
