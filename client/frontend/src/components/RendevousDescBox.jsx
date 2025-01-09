@@ -4,8 +4,12 @@ import axios from "axios";
 function RendevousDescBox({ group, onClose }) {
   const handleJoinGroup = async () => {
     try {
+      console.log("test");
+      const userResponse = await axios.get("http://localhost:3001/event/user", {withCredentials: true});
+      console.log(userResponse.data);
       const response = await axios.post("http://localhost:3001/event/join", {
-        _id: group._id, // Send group ID to the backend
+        eventID: group._id, // Send group ID to the backend
+        userID: userResponse.data,
       });
       console.log("Successfully joined the group:", response.data);
       alert("You have successfully joined the group!");

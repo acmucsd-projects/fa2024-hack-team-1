@@ -18,12 +18,20 @@ var eventRouter = require("./routes/event.js");
 var app = express();
 const mongoose = require("mongoose");
 
+var corsOptions = {
+  "origin": true,
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204,
+  credentials: true
+}
+
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
