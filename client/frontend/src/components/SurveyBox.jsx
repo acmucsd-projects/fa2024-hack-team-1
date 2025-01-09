@@ -56,25 +56,26 @@ function SurveyBox({ closeSurvey }) {
         if (customTag) {
             tagsArray.push(customTag);
         }
-
-        // FormData for file upload
-        const formData = new FormData();
-        formData.append('tags', JSON.stringify(tagsArray));
-        formData.append('location', location);
-        formData.append('timeFrame[start]', dateRange?.[0]?.toISOString());
-        formData.append('timeFrame[end]', dateRange?.[1]?.toISOString());
-        formData.append('timeFrame[timeZone]', Intl.DateTimeFormat().resolvedOptions().timeZone);
-        formData.append('budget', budget);
-        formData.append('personCount', groupSize);
-        formData.append('name', rendezvousName);
-        formData.append('description', description);
-        if (coverImage) {
-            formData.append('coverImage', coverImage); // Append the cover image file
-        }
-
+    
+        // Plain object data with the cover image as a URL
+        const data = {
+            tags: tagsArray,
+            location,
+            timeFrame: {
+                start: dateRange?.[0]?.toISOString(),
+                end: dateRange?.[1]?.toISOString(),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            },
+            budget,
+            personCount: groupSize,
+            name: rendezvousName,
+            description,
+            coverImage, // The coverImage is now directly the user-provided URL
+        };
+    
         try {
-            const response = await axios.post('http://localhost:3001/event/create', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+            const response = await axios.post('http://localhost:3001/event/create', data, {
+                headers: { 'Content-Type': 'application/json' },
             });
             console.log('Survey submitted successfully:', response.data);
             closeSurvey();
@@ -433,8 +434,38 @@ function SurveyBox({ closeSurvey }) {
                         {/* Cover Image Upload */}
                         <Box sx={{ mb: 3, width: '100%' }}>
     <Typography variant="h3" sx={{ mb: 1 }}>
-        Upload Cover Image:
+        Enter Cover Image URL:
     </Typography>
+    <TextField
+        placeholder="Enter Image URL"
+        value={coverImage}
+        onChange={(e) => setCoverImage(e.target.value)}
+        fullWidth
+        sx={{
+            ".MuiInputLabel-root": {
+                color: 'rgba(0, 62, 51, 0.4)',
+                fontSize: '16px',
+            },
+            ".MuiOutlinedInput-root": {
+                input: {
+                    fontFamily: 'Maven Pro',
+                    color: '#003E33',
+                    fontSize: '16px',
+                },
+                fieldset: {
+                    border: '1px solid rgba(0, 62, 51, 0.4)',
+                    borderRadius: '13px',
+                },
+                "&.Mui-focused fieldset": {
+                    border: '1px solid #003E33',
+                },
+            },
+        }}
+    />
+</Box>
+
+{/* Preview Section (optional) */}
+{coverImage && (
     <Box
         sx={{
             width: '100%',
@@ -445,47 +476,21 @@ function SurveyBox({ closeSurvey }) {
             justifyContent: 'center',
             alignItems: 'center',
             overflow: 'hidden',
-            position: 'relative',
-            backgroundColor: coverImage ? '#E8F5E9' : 'transparent', // Change background when an image is uploaded
-            cursor: 'pointer', // Indicate clickable area
+            backgroundColor: '#E8F5E9',
+            mt: 2,
         }}
-        onClick={() => document.getElementById('coverImageInput').click()} // Trigger file input on click
     >
-        {coverImage ? (
-            <img
-                src={URL.createObjectURL(coverImage)}
-                alt="Cover Preview"
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                }}
-            />
-        ) : (
-            <Typography
-                sx={{
-                    color: '#003E33',
-                    fontSize: '16px',
-                    textTransform: 'none',
-                }}
-            >
-                Click to Upload Cover Image
-            </Typography>
-        )}
-        <input
-            type="file"
-            accept="image/*"
-            hidden
-            id="coverImageInput"
-            onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    setCoverImage(file); // Save the file to state
-                }
+        <img
+            src={coverImage}
+            alt="Cover Preview"
+            style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
             }}
         />
     </Box>
-</Box>
+)}
 
                         <Box
                             sx={{

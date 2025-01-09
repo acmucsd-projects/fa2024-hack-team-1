@@ -1,25 +1,22 @@
+import RendevousDescBox from '../components/RendevousDescBox'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostRegisterNav from '../components/Post-RegisterNav';
 import SuggestedGroupCard from '../components/SuggestedGroupCard';
-import RendevousDescBox from '../components/RendevousDescBox'
-
+import './Groups.css';
 
 function Groups() {
   const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
-  const [loading, setLoading] = useState(true);    
-  const [error, setError] = useState(null);           
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchSuggestedGroups() {
       try {
-        // Start loading
         setLoading(true);
         setError(null);
 
-        // Make the request
-        const response = await axios.get('http://localhost:3001/event/test');
-        
+        const response = await axios.get('http://localhost:3001/event/latest');
         setSuggestedGroupsData(response.data);
       } catch (err) {
         console.error('Error fetching suggested groups:', err);
@@ -32,7 +29,6 @@ function Groups() {
     fetchSuggestedGroups();
   }, []);
 
-  // Still loading
   if (loading) {
     return (
       <>
@@ -44,11 +40,9 @@ function Groups() {
     );
   }
 
-  // If there was an error, show an error message
   if (error) {
     return (
       <>
-        <RendevousDescBox />
         <PostRegisterNav />
         <div className="home-container">
           <h2>Error: {error}</h2>
@@ -58,43 +52,39 @@ function Groups() {
   }
 
   return (
-    
     <div className="home-container">
       <PostRegisterNav />
 
-      <RendevousDescBox />
-
       <div className="main-content">
-        {/* Current Group */}
         <section className="group-section">
           <h2>Your Current Group</h2>
           <div className="row">
             <div className="notification-box">
               <h3>Most Recent Notification From Your Host:</h3>
-              {/* connect notifications content here */}
+              {/* Add logic for current group notifications */}
             </div>
             <div className="people-box">
               <h3>People in Your Group:</h3>
-              {/* Pull from data */}
+              {/* Add logic for current group people */}
             </div>
           </div>
         </section>
 
-        {/* Suggested Groups */}
         <section className="suggested-groups">
           <h2>Groups Suggested For You</h2>
           <p className="subtitle">
             Curated from your destination &amp; plans
           </p>
           <div className="groups-grid">
-            {suggestedGroupsData.map(group => (
+            {suggestedGroupsData.map((group) => (
               <SuggestedGroupCard
                 key={group._id}
-                // title={group.title}
-                // hostInfo={group.hostInfo}
+                name={group.name}
+                thumbnailLink={group.thumbnailLink}
                 location={group.location}
-                pricePerPerson={group.budget}
-                nights={group.personCount}
+                budget={group.budget}
+                personCount={group.personCount}
+                description={group.description}
               />
             ))}
           </div>

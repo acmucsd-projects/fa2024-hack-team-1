@@ -1,0 +1,40 @@
+.groups-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .group-section .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .notification-box,
+  .people-box {
+    width: 48%;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .suggested-groups {
+    margin-top: 40px;
+  }
+  
+  .suggested-groups h2 {
+    font-size: 24px;
+    color: #003e33;
+    text-align: center;
+  }
+  
+  .suggested-groups .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  

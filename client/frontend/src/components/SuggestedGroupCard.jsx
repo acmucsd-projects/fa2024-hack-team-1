@@ -1,14 +1,21 @@
 import React from 'react';
 import './SuggestedGroupCard.css';
 
-function SuggestedGroupCard({ title, hostInfo, location, pricePerPerson, nights }) {
+function SuggestedGroupCard({ name, thumbnailLink, location, budget, personCount, description }) {
   return (
     <div className="group-card">
-      <h3>{title}</h3>
-      <p>{hostInfo}</p>
-      <p>{location}</p>
-      <p>{pricePerPerson}</p>
-      <p>{nights}</p>
+      <img
+        src={thumbnailLink}
+        alt={`${name} Thumbnail`}
+        className="group-card-thumbnail"
+      />
+      <h3 className="group-card-title">{name}</h3>
+      <p className="group-card-description">{description}</p>
+      <div className="group-card-info">
+        <p><strong>Location:</strong> {location}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
+        <p><strong>People:</strong> {personCount}</p>
+      </div>
     </div>
   );
 }
