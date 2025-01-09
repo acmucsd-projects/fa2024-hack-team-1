@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const passport = require('passport');
 const Event = require("../schema/events.js");
 
 // implement check for private events
@@ -9,7 +8,14 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get("/", async (req, res) => {
-    await res.status(201).send("");
+
+    const id = req.body.eventID;
+
+    const result = await Event.findById(id).exec();
+
+    const resultJSON = await result.toJSON();
+
+    await res.status(201).send(resultJSON);
 })
 
 router.get("/latest", async(req, res) => {
@@ -41,54 +47,6 @@ router.post("/create", async(req, res) => {
     await newEvent.save();
 
     res.status(201).send("New event successfully created");
-})
-
-router.get("/user", (req, res) => {
-    
-    console.log(req.user);
-    console.log(req.cookies);
-
-    const id = req.user._id;
-
-    res.status(201).send(id);
-})
-
-router.post("/join", async(req, res) => {
-
-    const eventID = req.body.eventID;
-    const userID = req.body.userID;
-
-    console.log(eventID);
-
-    const event = await Event.findById(eventID);
-
-    console.log(userID);
-
-    var joinedAlready = false;
-
-    event.users.map(user => {
-        if(user == userID) joinedAlready = true;
-    })
-
-    if(!joinedAlready) {
-        event.users.push(userID);
-        event.save();
-        res.status(201).send("success");
-    } else {
-        res.status(201).send("already-joined");
-    }
-
-    
-
-});
-
-router.get("/members", async(req, res) => { // request body: eventID
-
-    const event = await Event.findById(req.body.eventID).exec();
-
-    event.users.map((user) => {
-        console.log(); // placeholder before i do anything
-    })
 })
 
 module.exports = router;
