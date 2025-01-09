@@ -1,27 +1,54 @@
 import React from 'react';
 import './SuggestedGroupCard.css';
-import { Typography, Box, } from '@mui/material';
 
-function SuggestedGroupCard({ name, thumbnailLink, location, budget, personCount, description }) {
-    return (
-        <Box className="group-card">
-            <img
-            src={thumbnailLink}
-            alt={`${name} Thumbnail`}
-            className="group-card-thumbnail"
-            />
-            <Typography variant="h3" display='block' sx={{ mt: '10px', }}>{name}</Typography>
-            <Box sx={{ width: '250px', height: '1px', bgcolor: '#003E33', mt: '10px', mb: '10px'}}></Box>
-            <Typography variant="p" display='block' sx={{}}>{description}</Typography>
-            <Box sx={{
+function SuggestedGroupCard({
+  name,
+  thumbnailLink,
+  location,
+  budget,
+  personCount,
+  description,
+  timeFrame, 
+}) {
+  let formattedStart = null;
+  let formattedEnd = null;
 
-            }}>
-                <Typography variant="p" display='block' sx={{ margin: '5px 0', }}> <strong>Location: </strong> {location}</Typography>
-                <Typography variant="p" display='block' sx={{ margin: '5px 0', }}> <strong>Budget:</strong> ${budget}</Typography>
-                <Typography variant="p" display='block' sx={{ margin: '5px 0', }}> <strong>People:</strong> {personCount}</Typography>
-            </Box>
-        </Box>
-    );
+  if (timeFrame?.start && timeFrame?.end) {
+    const startDate = new Date(timeFrame.start);
+    const endDate = new Date(timeFrame.end);
+
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: timeFrame.timeZone, 
+    };
+
+    formattedStart = startDate.toLocaleString('en-US', options);
+    formattedEnd = endDate.toLocaleString('en-US', options);
+  }
+
+  return (
+    <div className="group-card">
+      <img
+        src={thumbnailLink}
+        alt={`${name} Thumbnail`}
+        className="group-card-thumbnail"
+      />
+      <h3 className="group-card-title">{name}</h3>
+      <p className="group-card-description">{description}</p>
+
+      <div className="group-card-info">
+        <p><strong>Location:</strong> {location}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
+        <p><strong>People:</strong> {personCount}</p>
+        {/* Display the formatted start/end times if they exist */}
+        {formattedStart && formattedEnd && (
+          <p><strong>Dates:</strong> {formattedStart} – {formattedEnd}</p>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default SuggestedGroupCard;
