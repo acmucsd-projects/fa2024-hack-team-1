@@ -87,7 +87,16 @@ function About() {
                             
                     >Get Started</Button>
                 </Box>
-                <img src='\ErrorPic.png' style={{width: '450px', marginLeft: '100px'}}></img>
+                <Box sx={{
+                    marginLeft: '100px', 
+                    borderRadius: '31px'
+                }}>
+                    <img src='\oxana-v-qoAIlAmLJBU-unsplash.jpg' style={{
+                        width: '450px',
+                        boxShadow: 'inset 0 0 10px #000000',
+                        borderRadius: '31px'
+                    }}/>
+                </Box>
             </Container>
         </Box>
     );
