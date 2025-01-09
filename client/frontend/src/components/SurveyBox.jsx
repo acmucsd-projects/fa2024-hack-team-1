@@ -70,7 +70,7 @@ function SurveyBox({ closeSurvey }) {
             personCount: groupSize,
             name: rendezvousName,
             description,
-            coverImage, // The coverImage is now directly the user-provided URL
+            thumbnailLink: coverImage, // The coverImage is now directly the user-provided URL
         };
     
         try {
