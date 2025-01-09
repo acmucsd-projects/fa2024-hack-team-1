@@ -21,14 +21,17 @@ passport.use(
 );
 
 passport.serializeUser(function (user, done) {
+  done(null, user.email);
+});
+
+passport.deserializeUser( async(email, done) => {
+  const user = await User.findOne({email: email});
   done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
-
-router.get("/google",  passport.authenticate("google", { scope: ["email", "profile"] })
+router.get("/google",  passport.authenticate("google", { 
+  scope: ["email", "profile"] 
+})
 );
 
 router.get("/failure", (req, res) => {

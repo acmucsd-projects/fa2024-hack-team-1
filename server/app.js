@@ -4,6 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
 var logger = require("morgan");
 const cors = require('cors');
 require("dotenv").config();
@@ -17,7 +18,26 @@ var eventRouter = require("./routes/event.js");
 var app = express();
 const mongoose = require("mongoose");
 
-app.use(session({ secret: process.env["PASSPORT_SECRET"] }));
+
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
+
+app.use(cors());
+
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(session({ 
+  secret: process.env["PASSPORT_SECRET"],
+  resave: false,
+  saveUninitialized: false
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -31,17 +51,6 @@ mongoose.connection.on("error", (err) => {
   console.error("MongoDB connection error:", err);
 });
 
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
-
-app.use(cors());
-
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
 // database middleware
 app.use((req, res, next) => {
