@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Button, Box, List, TextField, FilledInput} from '@mui/material';
+import { Button, Box, List, TextField, } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 function PostRegisterNav(){
@@ -103,7 +103,14 @@ function PostRegisterNav(){
                     justifyContent: 'right',
                     alignItems: 'center',
                 }}>
-                    <img src="\ErrorPic.png" style={{width: '50px', marginRight: '40px'}}/>
+                    <Button color="darkGreen" sx={{
+                        mr: '40px',
+                        "&:hover": {
+                            "textShadow": "2px 2px 5px rgba(0, 0, 0, 0.2)",
+                            "backgroundColor": "rgba(0, 0, 0, 0)",
+                            color: '#A92730'
+                        },
+                    }}>Log Out</Button>
                 </Box>
 
             </Box>
