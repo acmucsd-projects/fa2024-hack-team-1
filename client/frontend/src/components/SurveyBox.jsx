@@ -170,18 +170,20 @@ function SurveyBox({ closeSurvey }) {
                         alignItems: 'center',
                         flexDirection: 'column'
                     }}>
-                        <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33'}}></Box>
+                        <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px'}}></Box>
                         <Typography variant="h3" sx={{ mb: 2,}}>
-                            Type Where Your Rendevous Will Take Place:
+                            Highlight the Days Your Rendevous Will Take Place
                         </Typography>
                         <Calendar
                             onChange={setDateRange}
                             value={dateRange}
                             selectRange={true}
-                            sx={{ mb: 2 }}
                         />
-                        <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
-                            Adjust the Range of People You Would Travel With:
+                        <Typography variant="h3" sx={{mt: 3}}>
+                        Adjust the Range of People You Would Travel With:
+                        </Typography>
+                        <Typography variant="p" align="center" sx={{ mb: 2,}}>
+                            (Not Including Yourself)
                         </Typography>
                         <Slider
                             value={groupSize}
@@ -192,13 +194,21 @@ function SurveyBox({ closeSurvey }) {
                                 { value: 1, label: '1' },
                                 { value: 20, label: '20+' },
                             ]}
-                            sx={{ mb: 2 }}
+                            sx={{ mb: 2,
+                                 color: '#005873',
+                                '& .MuiSlider-markLabel': {
+                                    color: '#003E33',
+                                    fontFamily: 'Maven Pro',
+                                    fontSize: '16px'
+                                },
+                            }}
                         />
-                        <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
-                            (Not Including Yourself)
-                        </Typography>
-                        <Typography sx={{ mt: 3, mb: 2, textAlign: 'center' }}>
+
+                        <Typography variant="h3" sx={{mt: 3}}>
                             Adjust Your Budget:
+                        </Typography>
+                        <Typography variant="p" sx={{ mb: 2,}}>
+                            (Budget is in USD)
                         </Typography>
                         <Slider
                             value={budget}
@@ -207,19 +217,32 @@ function SurveyBox({ closeSurvey }) {
                             max={5000}
                             step={50}
                             marks={[
-                                { value: 50, label: '$50' },
+                                { value: 50, label: '$50',},
                                 { value: 5000, label: '$5000+' },
                             ]}
-                            sx={{ mb: 2 }}
+                            sx={{ 
+                                mb: 2, 
+                                color: '#005873', 
+                                '& .MuiSlider-markLabel': {
+                                    color: '#003E33',
+                                    fontFamily: 'Maven Pro',
+                                    fontSize: '16px'
+                                },
+                            }}
                         />
-                        <Typography align="center" sx={{ fontSize: '14px', mb: 2 }}>
-                            Budget is in USD
-                        </Typography>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Button variant="outlined" onClick={handlePrevious}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '140px', width: '100%'}}>
+                            <Button variant="PillBox" onClick={handlePrevious}sx={{
+                                width: '200px',
+                                height: '75px',
+                                fontSize: '35px'
+                            }}>
                                 Back
                             </Button>
-                            <Button variant="contained" onClick={handleNext}>
+                            <Button variant="PillBox" onClick={handleNext}sx={{
+                                width: '200px',
+                                height: '75px',
+                                fontSize: '35px'
+                            }}>
                                 Next
                             </Button>
                         </Box>
