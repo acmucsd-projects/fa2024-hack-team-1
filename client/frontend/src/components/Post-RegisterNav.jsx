@@ -97,21 +97,32 @@ function PostRegisterNav(){
                     }
                 }}/>
 
-                <Box sx={{
-                    width: "322.75px",
-                    display: 'flex',
-                    justifyContent: 'right',
-                    alignItems: 'center',
-                }}>
-                    <Button color="darkGreen" sx={{
-                        mr: '40px',
-                        "&:hover": {
-                            "textShadow": "2px 2px 5px rgba(0, 0, 0, 0.2)",
-                            "backgroundColor": "rgba(0, 0, 0, 0)",
-                            color: '#A92730'
-                        },
-                    }}>Log Out</Button>
-                </Box>
+<Box
+  sx={{
+    width: "322.75px",
+    display: "flex",
+    justifyContent: "right",
+    alignItems: "center",
+  }}
+>
+<Button
+  color="darkGreen"
+  sx={{
+    mr: '40px',
+    "&:hover": {
+      textShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+      backgroundColor: "rgba(0, 0, 0, 0)",
+      color: '#A92730'
+    }
+  }}
+  onClick={() => {
+    window.location.href = "http://localhost:3001/auth/logout";
+  }}
+>
+  Log Out
+</Button>
+</Box>
+
 
             </Box>
         </ThemeProvider>
