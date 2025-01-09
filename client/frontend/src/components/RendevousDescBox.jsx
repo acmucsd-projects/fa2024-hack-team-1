@@ -15,7 +15,6 @@ function RendevousDescBox({ group, onClose }) {
     }
   };
 
-function RendevousDescBox({ group, onClose }) {
   return (
     <Box
       sx={{
@@ -164,6 +163,7 @@ function RendevousDescBox({ group, onClose }) {
               Duration:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
+              {group.timeFrame?.start} - {group.timeFrame?.end}
             </Typography>
           </Box>
         </Box>
