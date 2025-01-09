@@ -207,6 +207,7 @@ function SurveyBox({ closeSurvey }) {
                         <Typography variant="h3" sx={{mt: 3}}>
                             Adjust Your Budget:
                         </Typography>
+                        
                         <Typography variant="p" sx={{ mb: 2,}}>
                             (Budget is in USD)
                         </Typography>
@@ -253,63 +254,103 @@ function SurveyBox({ closeSurvey }) {
             {/* Plans Step */}
             {step === 3 && (
                 <>
-                    <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+                    <Typography variant="h1" sx={{mb: 2}}>
                         Plans
                     </Typography>
-                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Select any of these tags according to what you want to do at your Rendezvous:
-                    </Typography>
-                    <Box
-                        sx={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(2, 1fr)',
-                            gap: 1.5,
-                            mb: 2,
-                        }}
-                    >
-                        {tags.map((tag) => (
-                            <Button
-                                key={tag}
-                                variant={selectedTags.includes(tag) ? 'contained' : 'outlined'}
-                                onClick={() =>
-                                    setSelectedTags((prev) =>
-                                        prev.includes(tag)
-                                            ? prev.filter((t) => t !== tag)
-                                            : [...prev, tag]
-                                    )
-                                }
-                                sx={{
-                                    textTransform: 'capitalize',
-                                    borderRadius: '15px',
-                                    backgroundColor: selectedTags.includes(tag) ? '#008E6A' : '#E0E0E0',
-                                    color: selectedTags.includes(tag) ? '#FFFFFF' : '#000000',
-                                    '&:hover': {
-                                        backgroundColor: selectedTags.includes(tag)
-                                            ? '#006F54'
-                                            : '#CFCFCF',
+                    <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexDirection: 'column'
+                    }}>
+                    <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px'}}></Box>
+                        <Typography variant="h3" sx={{mt: 3, mb: 2}}>
+                            Select Any of These Tags According to What You Plan to do at Your Rendezvous:
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(2, 1fr)',
+                                gap: 1.5,
+                                mb: 2,
+                            }}
+                        >
+                            {tags.map((tag) => (
+                                <Button
+                                    key={tag}
+                                    variant={selectedTags.includes(tag) ? 'contained' : 'outlined'}
+                                    onClick={() =>
+                                        setSelectedTags((prev) =>
+                                            prev.includes(tag)
+                                                ? prev.filter((t) => t !== tag)
+                                                : [...prev, tag]
+                                        )
+                                    }
+                                    sx={{
+                                        textTransform: 'capitalize',
+                                        border: '1px solid #003E33',
+                                        borderRadius: '15px',
+                                        backgroundColor: selectedTags.includes(tag) ? '#AFD450' : '#F5F5F5',
+                                        color: selectedTags.includes(tag) ? '#005873' : '#003E33',
+                                        fontFamily: 'Maven Pro',
+                                        fontSize: '20px',
+                                        '&:hover': {
+                                            backgroundColor: selectedTags.includes(tag)
+                                                ? '#006F54'
+                                                : '#CFCFCF',
+                                        },
+                                        width: '255px',
+                                        height: '44px'
+
+                                    }}
+                                >
+                                    {tag}
+                                </Button>
+                            ))}
+                        </Box>
+                        {selectedTags.includes('Other') && (
+                            <TextField
+                                placeholder="Enter your custom tag"
+                                value={customTag}
+                                onChange={(e) => setCustomTag(e.target.value)}
+                                sx={{ 
+                                    mb: 2,
+                                    ".MuiInputLabel-root": {
+                                        color: 'rgba(0, 62, 51, 0.4)',
+                                        fontSize: '16px'
                                     },
+                                    ".MuiOutlinedInput-root": {
+                                        input:{
+                                            fontFamily: 'Maven Pro',
+                                            color: '#003E33',
+                                            fontSize: '16px',
+                                        },
+                                        fieldset: {
+                                            border: "1px solid rgba(0, 62, 51, 0.4)",
+                                            borderRadius: "67px",
+                                        },
+                                        "&.Mui-focused fieldset": {
+                                            border: "1px solid #003E33",
+                                        }
+                                    }
                                 }}
-                            >
-                                {tag}
+                            />
+                        )}
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                            <Button variant="PillBox" onClick={handlePrevious}sx={{
+                                width: '200px',
+                                height: '75px',
+                                fontSize: '35px'
+                            }}>
+                                Back
                             </Button>
-                        ))}
-                    </Box>
-                    {selectedTags.includes('Other') && (
-                        <TextField
-                            placeholder="Enter your custom tag"
-                            value={customTag}
-                            onChange={(e) => setCustomTag(e.target.value)}
-                            fullWidth
-                            sx={{ mb: 2 }}
-                        />
-                    )}
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="outlined" onClick={handlePrevious}>
-                            Back
-                        </Button>
-                        <Button variant="contained" onClick={handleNext}>
-                            Next
-                        </Button>
+                            <Button variant="PillBox" onClick={handleNext}sx={{
+                                width: '200px',
+                                height: '75px',
+                                fontSize: '35px'
+                            }}>
+                                Next
+                            </Button>
+                        </Box>
                     </Box>
                 </>
             )}
