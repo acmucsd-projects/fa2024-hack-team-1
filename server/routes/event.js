@@ -18,6 +18,11 @@ router.get("/", async (req, res) => {
     await res.status(201).send(resultJSON);
 })
 
+router.get("/latest", async(req, res) => {
+    const result = await Event.find().sort({$natural:-1}).limit(10);
+    await res.status(201).send(result);
+})
+
 router.get("/test", async(req, res) => {
 
     const result = await Event.findOne({});
