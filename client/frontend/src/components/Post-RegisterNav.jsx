@@ -72,7 +72,7 @@ function PostRegisterNav(){
                         alignItems: 'center',
                     }}>
                         <Button variant="text" color="darkGreen" component={Link} to="/home" sx={{mr: '20px', }}>Home</Button>
-                        <Button variant="text" color="darkGreen">Create Group</Button>
+                        <Button variant="text" color="darkGreen" component={Link} to="/group">Groups</Button>
                     </List>
 
                 </Box>
