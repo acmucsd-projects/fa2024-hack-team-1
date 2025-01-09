@@ -11,7 +11,25 @@ function Groups() {
   const [selectedGroup, setSelectedGroup] = useState(null); // State for the selected group
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [joinedGroups, setJoinedGroups] = useState([]);
 
+
+  useEffect(() => {
+    async function fetchJoinedGroups() {
+      try {
+        // No loading spinner here if you prefer—this can share the same loading if you want
+        const response = await axios.get('http://localhost:3001/event/joined', {
+          withCredentials: true,
+        });
+        setJoinedGroups(response.data); // an array of events
+      } catch (err) {
+        console.error('Error fetching joined groups:', err);
+      }
+    }
+    fetchJoinedGroups();
+  }, []);
+
+  // Fetch suggested groups
   useEffect(() => {
     async function fetchSuggestedGroups() {
       try {
@@ -27,7 +45,6 @@ function Groups() {
         setLoading(false);
       }
     }
-
     fetchSuggestedGroups();
   }, []);
 
@@ -63,44 +80,66 @@ function Groups() {
 
   return (
     <>
-    <PostRegisterNav />
-    <div className="home-container">
-      
-
-      <div className="main-content">
-        <section className="suggested-groups">
-          <Typography variant="h1" display='block' sx={{}}> Groups Suggested For You </Typography>
-          <Typography variant="p" display='block' sx={{mb: '22px', ml: '128px'}}> Curated from your destination &amp; plans</Typography>
-          <div className="groups-grid">
-            {suggestedGroupsData.map((group) => (
-              <div
-                key={group._id}
-                onClick={() => handleGroupClick(group)} // Show description box on click
-                style={{ cursor: 'pointer' }}
-              >
-                <SuggestedGroupCard
-                  name={group.name}
-                  thumbnailLink={group.thumbnailLink}
-                  location={group.location}
-                  budget={group.budget}
-                  personCount={group.personCount}
-                  description={group.description}
-                  timeFrame={group.timeFrame} 
-                />
+      <PostRegisterNav />
+      <div className="home-container">
+        <div className="main-content">
+        {joinedGroups.length > 0 && (
+            <section className="joined-groups" style={{ marginBottom: '40px' }}>
+              <Typography variant="h4">Your Joined Groups</Typography>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginTop: '16px' }}>
+                {joinedGroups.map((group) => (
+                  <SuggestedGroupCard
+                    key={group._id}
+                    name={group.name}
+                    thumbnailLink={group.thumbnailLink}
+                    location={group.location}
+                    budget={group.budget}
+                    personCount={group.personCount}
+                    description={group.description}
+                    timeFrame={group.timeFrame}
+                  />
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-      </div>
+            </section>
+          )}
 
-      {/* Render the RendevousDescBox if a group is selected */}
-      {selectedGroup && (
-        <RendevousDescBox
-          group={selectedGroup}
-          onClose={handleCloseDescBox} // Pass the close function
-        />
-      )}
-    </div>
+          <section className="suggested-groups">
+            <Typography variant="h1" display="block">
+              Groups Suggested For You
+            </Typography>
+            <Typography
+              variant="body1"
+              display="block"
+              sx={{ mb: '22px', ml: '128px' }}
+            >
+              Curated from your destination &amp; plans
+            </Typography>
+            <div className="groups-grid">
+              {suggestedGroupsData.map((group) => (
+                <div
+                  key={group._id}
+                  onClick={() => handleGroupClick(group)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <SuggestedGroupCard
+                    name={group.name}
+                    thumbnailLink={group.thumbnailLink}
+                    location={group.location}
+                    budget={group.budget}
+                    personCount={group.personCount}
+                    description={group.description}
+                    timeFrame={group.timeFrame}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {selectedGroup && (
+          <RendevousDescBox group={selectedGroup} onClose={handleCloseDescBox} />
+        )}
+      </div>
     </>
   );
 }
