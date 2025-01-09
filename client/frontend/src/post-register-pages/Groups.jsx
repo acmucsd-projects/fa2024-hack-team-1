@@ -3,6 +3,7 @@ import axios from 'axios';
 import PostRegisterNav from '../components/Post-RegisterNav';
 import SuggestedGroupCard from '../components/SuggestedGroupCard';
 import RendevousDescBox from '../components/RendevousDescBox';
+import { Typography } from '@mui/material';
 import './Groups.css';
 
 function Groups() {
@@ -68,8 +69,8 @@ function Groups() {
 
       <div className="main-content">
         <section className="suggested-groups">
-          <h2 className="section-title">Groups Suggested For You</h2>
-          <p className="subtitle">Curated from your destination &amp; plans</p>
+          <Typography variant="h1" display='block' sx={{}}> Groups Suggested For You </Typography>
+          <Typography variant="p" display='block' sx={{mb: '22px', ml: '128px'}}> Curated from your destination &amp; plans</Typography>
           <div className="groups-grid">
             {suggestedGroupsData.map((group) => (
               <div
