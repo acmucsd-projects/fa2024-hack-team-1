@@ -148,7 +148,6 @@ function RendevousDescBox({ group, onClose }) {
               Duration:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
-              Month XX - Month XX
             </Typography>
           </Box>
         </Box>

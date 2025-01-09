@@ -61,8 +61,10 @@ function Groups() {
   }
 
   return (
+    <>
+    <PostRegisterNav />
     <div className="home-container">
-      <PostRegisterNav />
+      
 
       <div className="main-content">
         <section className="suggested-groups">
@@ -97,6 +99,7 @@ function Groups() {
         />
       )}
     </div>
+    </>
   );
 }
 

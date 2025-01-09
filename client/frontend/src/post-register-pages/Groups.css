@@ -50,9 +50,19 @@
   }
   
   .groups-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-    justify-content: center;
+  
+    max-height: 60vh;    
+    overflow-y: auto;
+  
+    border: none;
+    box-shadow: none;
+  
+    margin: 0 auto;      
+    padding: 10px;
   }
+  
   
