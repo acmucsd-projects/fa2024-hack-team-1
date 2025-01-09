@@ -57,24 +57,25 @@ function SurveyBox({ closeSurvey }) {
             tagsArray.push(customTag);
         }
 
-        // FormData for file upload
-        const formData = new FormData();
-        formData.append('tags', JSON.stringify(tagsArray));
-        formData.append('location', location);
-        formData.append('timeFrame[start]', dateRange?.[0]?.toISOString());
-        formData.append('timeFrame[end]', dateRange?.[1]?.toISOString());
-        formData.append('timeFrame[timeZone]', Intl.DateTimeFormat().resolvedOptions().timeZone);
-        formData.append('budget', budget);
-        formData.append('personCount', groupSize);
-        formData.append('name', rendezvousName);
-        formData.append('description', description);
-        if (coverImage) {
-            formData.append('coverImage', coverImage); // Append the cover image file
-        }
+        // Plain object data
+        const data = {
+            tags: tagsArray,
+            location,
+            timeFrame: {
+                start: dateRange?.[0]?.toISOString(),
+                end: dateRange?.[1]?.toISOString(),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            },
+            budget,
+            personCount: groupSize,
+            name: rendezvousName,
+            description,
+            coverImage: coverImage ? 'Cover image placeholder or URL' : null, // Placeholder if needed
+        };
 
         try {
-            const response = await axios.post('http://localhost:3001/event/create', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+            const response = await axios.post('http://localhost:3001/event/create', JSON.stringify(data), {
+                headers: { 'Content-Type': 'application/json' },
             });
             console.log('Survey submitted successfully:', response.data);
             closeSurvey();
