@@ -2,8 +2,6 @@ import Nav from '../components/Pre-register_Nav'
 import { Link } from 'react-router-dom';
 import { Button, Typography, Container, Box, } from '@mui/material';
 
-const clientId = "33046251875-uf9scct13bscplhflgv347niur4ig11r.apps.googleusercontent.com";
-
 
 
 function About() {  
@@ -82,12 +80,19 @@ function About() {
                     <Typography variant='p' sx={{fontSize:'25px', textAlign: 'center', mt: '55px', mb: '55px', width: '450px'}}>Looking for travel buddies? Planning a trip? Or just wanting to meet new people? We can help! Rendezview helps you find people traveling to the same place. 
                     </Typography>
                     <Button varient="PillBox"
-
-                            clientId={clientId}
-                            
+                            component={Link} to="http://localhost:3001/auth/google"
                     >Get Started</Button>
                 </Box>
-                <img src='\ErrorPic.png' style={{width: '450px', marginLeft: '100px'}}></img>
+                <Box sx={{
+                    marginLeft: '100px', 
+                    borderRadius: '31px'
+                }}>
+                    <img src='\oxana-v-qoAIlAmLJBU-unsplash.jpg' style={{
+                        width: '450px',
+                        boxShadow: 'inset 0 0 10px #000000',
+                        borderRadius: '31px'
+                    }}/>
+                </Box>
             </Container>
         </Box>
     );
