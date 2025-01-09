@@ -7,13 +7,14 @@ import axios from 'axios';
 function SurveyBox({ closeSurvey }) {
     const [step, setStep] = useState(1);
     const [location, setLocation] = useState('');
-    const [dateRange, setDateRange] = useState(null); 
+    const [dateRange, setDateRange] = useState(null);
     const [groupSize, setGroupSize] = useState(1);
-    const [budget, setBudget] = useState(100); 
+    const [budget, setBudget] = useState(100);
     const [selectedTags, setSelectedTags] = useState([]);
     const [customTag, setCustomTag] = useState('');
     const [rendezvousName, setRendezvousName] = useState('');
     const [description, setDescription] = useState('');
+    const [coverImage, setCoverImage] = useState(null); // State for cover image
 
     const tags = [
         'Snowboarding',
@@ -39,8 +40,8 @@ function SurveyBox({ closeSurvey }) {
             alert('Please select at least one tag!');
             return;
         }
-        if (step === 4 && (!rendezvousName || !description)) {
-            alert('Please provide a name and description!');
+        if (step === 4 && (!rendezvousName || !description || !coverImage)) {
+            alert('Please provide a name, description, and cover image!');
             return;
         }
         setStep(step + 1);
@@ -55,24 +56,26 @@ function SurveyBox({ closeSurvey }) {
         if (customTag) {
             tagsArray.push(customTag);
         }
-    
-        const data = {
-            tags: tagsArray,
-            location,
-            timeFrame: {
-                start: dateRange?.[0]?.toISOString(), 
-                end: dateRange?.[1]?.toISOString(),  
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
-            },
-            budget: budget,
-            personCount: groupSize,
-            name: rendezvousName,
-            description: description,
-        };
-    
+
+        // FormData for file upload
+        const formData = new FormData();
+        formData.append('tags', JSON.stringify(tagsArray));
+        formData.append('location', location);
+        formData.append('timeFrame[start]', dateRange?.[0]?.toISOString());
+        formData.append('timeFrame[end]', dateRange?.[1]?.toISOString());
+        formData.append('timeFrame[timeZone]', Intl.DateTimeFormat().resolvedOptions().timeZone);
+        formData.append('budget', budget);
+        formData.append('personCount', groupSize);
+        formData.append('name', rendezvousName);
+        formData.append('description', description);
+        if (coverImage) {
+            formData.append('coverImage', coverImage); // Append the cover image file
+        }
+
         try {
-            // POST request to the backend
-            const response = await axios.post('http://localhost:3001/event/create', data);
+            const response = await axios.post('http://localhost:3001/event/create', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
             console.log('Survey submitted successfully:', response.data);
             closeSurvey();
         } catch (error) {
@@ -98,20 +101,16 @@ function SurveyBox({ closeSurvey }) {
                 overflowY: 'auto',
             }}
         >
-            {/* Location Step */}
+            {/* Step 1: Location */}
             {step === 1 && (
-                < >
-                    <Typography variant="h1" sx={{ mb: '25px', }}>
+                <>
+                    <Typography variant="h1" sx={{ mb: '25px' }}>
                         Location
                     </Typography>
-                    <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column'
-                    }}>
-                        <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px'}}></Box>
-                        <Typography variant="h3" sx={{ mb: 2,}}>
-                            Type Where Your Rendevous Will Take Place:
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                        <Box sx={{ width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px' }}></Box>
+                        <Typography variant="h3" sx={{ mb: 2 }}>
+                            Type Where Your Rendezvous Will Take Place:
                         </Typography>
                         <TextField
                             placeholder="Enter Location"
@@ -120,38 +119,35 @@ function SurveyBox({ closeSurvey }) {
                             sx={{
                                 mb: 2,
                                 width: '700px',
-                                ".MuiInputLabel-root": {
-                                    color: 'rgba(0, 62, 51, 0.4)',
-                                    fontSize: '16px'
-                                },
                                 ".MuiOutlinedInput-root": {
-                                    input:{
+                                    input: {
                                         fontFamily: 'Maven Pro',
                                         color: '#003E33',
                                         fontSize: '16px',
                                     },
                                     fieldset: {
-                                        border: "1px solid rgba(0, 62, 51, 0.4)",
-                                        borderRadius: "67px",
+                                        border: '1px solid rgba(0, 62, 51, 0.4)',
+                                        borderRadius: '67px',
                                     },
-                                    "&.Mui-focused fieldset": {
-                                        border: "1px solid #003E33",
-                                    }
-                                }
-                        }}/>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '140px', width: '100%'}}>
-                            <Button variant="PillBox" onClick={closeSurvey} sx={{
-                                width: '200px',
-                                height: '75px',
-                                fontSize: '35px'
-                            }}>
+                                    '&.Mui-focused fieldset': {
+                                        border: '1px solid #003E33',
+                                    },
+                                },
+                            }}
+                        />
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '140px', width: '100%' }}>
+                            <Button
+                                variant="PillBox"
+                                onClick={closeSurvey}
+                                sx={{ width: '200px', height: '75px', fontSize: '35px' }}
+                            >
                                 Cancel
                             </Button>
-                            <Button variant="PillBox" onClick={handleNext} sx={{
-                                width: '200px',
-                                height: '75px',
-                                fontSize: '35px'
-                            }}>
+                            <Button
+                                variant="PillBox"
+                                onClick={handleNext}
+                                sx={{ width: '200px', height: '75px', fontSize: '35px' }}
+                            >
                                 Next
                             </Button>
                         </Box>
@@ -159,30 +155,22 @@ function SurveyBox({ closeSurvey }) {
                 </>
             )}
 
-            {/* Logistics Step */}
+            {/* Step 2: Logistics */}
             {step === 2 && (
                 <>
-                    <Typography variant="h1" sx={{ mb: 2, }}>
+                    <Typography variant="h1" sx={{ mb: 2 }}>
                         Logistics
                     </Typography>
-                    <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column'
-                    }}>
-                        <Box sx={{width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px'}}></Box>
-                        <Typography variant="h3" sx={{ mb: 2,}}>
-                            Highlight the Days Your Rendevous Will Take Place
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                        <Box sx={{ width: '65vw', height: '1px', bgcolor: '#003E33', mb: '42px' }}></Box>
+                        <Typography variant="h3" sx={{ mb: 2 }}>
+                            Highlight the Days Your Rendezvous Will Take Place
                         </Typography>
-                        <Calendar
-                            onChange={setDateRange}
-                            value={dateRange}
-                            selectRange={true}
-                        />
-                        <Typography variant="h3" sx={{mt: 3}}>
-                        Adjust the Range of People You Would Travel With:
+                        <Calendar onChange={setDateRange} value={dateRange} selectRange={true} />
+                        <Typography variant="h3" sx={{ mt: 3 }}>
+                            Adjust the Range of People You Would Travel With:
                         </Typography>
-                        <Typography variant="p" align="center" sx={{ mb: 2,}}>
+                        <Typography variant="p" align="center" sx={{ mb: 2 }}>
                             (Not Including Yourself)
                         </Typography>
                         <Slider
@@ -194,20 +182,21 @@ function SurveyBox({ closeSurvey }) {
                                 { value: 1, label: '1' },
                                 { value: 20, label: '20+' },
                             ]}
-                            sx={{ mb: 2,
-                                 color: '#005873',
+                            valueLabelDisplay="on"
+                            sx={{
+                                mb: 2,
+                                color: '#005873',
                                 '& .MuiSlider-markLabel': {
                                     color: '#003E33',
                                     fontFamily: 'Maven Pro',
-                                    fontSize: '16px'
+                                    fontSize: '16px',
                                 },
                             }}
                         />
-
-                        <Typography variant="h3" sx={{mt: 3}}>
+                        <Typography variant="h3" sx={{ mt: 3 }}>
                             Adjust Your Budget:
                         </Typography>
-                        <Typography variant="p" sx={{ mb: 2,}}>
+                        <Typography variant="p" sx={{ mb: 2 }}>
                             (Budget is in USD)
                         </Typography>
                         <Slider
@@ -217,32 +206,33 @@ function SurveyBox({ closeSurvey }) {
                             max={5000}
                             step={50}
                             marks={[
-                                { value: 50, label: '$50',},
+                                { value: 50, label: '$50' },
                                 { value: 5000, label: '$5000+' },
                             ]}
-                            sx={{ 
-                                mb: 2, 
-                                color: '#005873', 
+                            valueLabelDisplay="on"
+                            sx={{
+                                mb: 2,
+                                color: '#005873',
                                 '& .MuiSlider-markLabel': {
                                     color: '#003E33',
                                     fontFamily: 'Maven Pro',
-                                    fontSize: '16px'
+                                    fontSize: '16px',
                                 },
                             }}
                         />
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '140px', width: '100%'}}>
-                            <Button variant="PillBox" onClick={handlePrevious}sx={{
-                                width: '200px',
-                                height: '75px',
-                                fontSize: '35px'
-                            }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '140px', width: '100%' }}>
+                            <Button
+                                variant="PillBox"
+                                onClick={handlePrevious}
+                                sx={{ width: '200px', height: '75px', fontSize: '35px' }}
+                            >
                                 Back
                             </Button>
-                            <Button variant="PillBox" onClick={handleNext}sx={{
-                                width: '200px',
-                                height: '75px',
-                                fontSize: '35px'
-                            }}>
+                            <Button
+                                variant="PillBox"
+                                onClick={handleNext}
+                                sx={{ width: '200px', height: '75px', fontSize: '35px' }}
+                            >
                                 Next
                             </Button>
                         </Box>
@@ -250,7 +240,7 @@ function SurveyBox({ closeSurvey }) {
                 </>
             )}
 
-            {/* Plans Step */}
+            {/* Step 3: Plans */}
             {step === 3 && (
                 <>
                     <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
@@ -314,38 +304,139 @@ function SurveyBox({ closeSurvey }) {
                 </>
             )}
 
-            {/* Description & Name Step */}
+            {/* Step 4: Final Details */}
             {step === 4 && (
                 <>
-                    <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+                    <Typography variant="h1" sx={{ mb: 2, textAlign: 'center' }}>
                         Final Details
                     </Typography>
-                    <Typography sx={{ mb: 2, textAlign: 'center' }}>
-                        Provide a name and description for your Rendezvous:
-                    </Typography>
-                    <TextField
-                        placeholder="Enter Rendezvous Name"
-                        value={rendezvousName}
-                        onChange={(e) => setRendezvousName(e.target.value)}
-                        fullWidth
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        placeholder="Enter a short description of your Rendezvous"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        multiline
-                        rows={4}
-                        fullWidth
-                        sx={{ mb: 2 }}
-                    />
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Button variant="outlined" onClick={handlePrevious}>
-                            Back
-                        </Button>
-                        <Button variant="contained" onClick={handleSubmit}>
-                            Submit
-                        </Button>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: '65vw',
+                                height: '1px',
+                                bgcolor: '#003E33',
+                                mb: '42px',
+                            }}
+                        ></Box>
+                        <Typography variant="h3" sx={{ mb: 2, textAlign: 'center' }}>
+                            Provide a name, description, and upload a cover image for your Rendezvous:
+                        </Typography>
+
+                        {/* Rendezvous Name */}
+                        <TextField
+                            placeholder="Enter Rendezvous Name"
+                            value={rendezvousName}
+                            onChange={(e) => setRendezvousName(e.target.value)}
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
+
+                        {/* Rendezvous Description */}
+                        <TextField
+                            placeholder="Enter a short description of your Rendezvous"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            multiline
+                            rows={4}
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
+
+                        {/* Cover Image Upload */}
+                        <Box sx={{ mb: 3, width: '100%' }}>
+    <Typography variant="h3" sx={{ mb: 1 }}>
+        Upload Cover Image:
+    </Typography>
+    <Box
+        sx={{
+            width: '100%',
+            height: '150px',
+            border: '2px dashed rgba(0, 62, 51, 0.4)',
+            borderRadius: '15px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
+            position: 'relative',
+            backgroundColor: coverImage ? '#E8F5E9' : 'transparent', // Change background when an image is uploaded
+            cursor: 'pointer', // Indicate clickable area
+        }}
+        onClick={() => document.getElementById('coverImageInput').click()} // Trigger file input on click
+    >
+        {coverImage ? (
+            <img
+                src={URL.createObjectURL(coverImage)}
+                alt="Cover Preview"
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                }}
+            />
+        ) : (
+            <Typography
+                sx={{
+                    color: '#003E33',
+                    fontSize: '16px',
+                    textTransform: 'none',
+                }}
+            >
+                Click to Upload Cover Image
+            </Typography>
+        )}
+        <input
+            type="file"
+            accept="image/*"
+            hidden
+            id="coverImageInput"
+            onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    setCoverImage(file); // Save the file to state
+                }
+            }}
+        />
+    </Box>
+</Box>
+
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                mt: '40px',
+                                width: '100%',
+                            }}
+                        >
+                            <Button
+                                variant="PillBox"
+                                onClick={handlePrevious}
+                                sx={{
+                                    width: '200px',
+                                    height: '75px',
+                                    fontSize: '35px',
+                                }}
+                            >
+                                Back
+                            </Button>
+                            <Button
+                                variant="PillBox"
+                                onClick={handleSubmit}
+                                sx={{
+                                    width: '200px',
+                                    height: '75px',
+                                    fontSize: '35px',
+                                }}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
                     </Box>
                 </>
             )}
