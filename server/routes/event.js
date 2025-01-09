@@ -36,6 +36,7 @@ router.post("/create", async(req, res) => {
         personCount: req.body.personCount,
         name: req.body.name,
         description: req.body.description,
+        thumbnailLink: req.body.thumbnailLink
     })
 
     await newEvent.save();
