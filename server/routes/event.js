@@ -73,9 +73,9 @@ router.post("/join", async(req, res) => {
     if(!joinedAlready) {
         event.users.push(userID);
         event.save();
-        res.status(201).send("Success!");
+        res.status(201).send("success");
     } else {
-        res.status(201).send("You already joined this group!");
+        res.status(201).send("already-joined");
     }
 
     

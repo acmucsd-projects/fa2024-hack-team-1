@@ -12,7 +12,15 @@ function RendevousDescBox({ group, onClose }) {
         userID: userResponse.data,
       });
       console.log("Successfully joined the group:", response.data);
-      alert("You have successfully joined the group!");
+
+      if(response.data == "success") {
+        alert("You have successfully joined the group!");
+      }
+
+      if(response.data == "already-joined") {
+        alert("You already joined this group!");
+      }
+
     } catch (error) {
       console.error("Error joining the group:", error);
       alert("Failed to join the group. Please try again.");
