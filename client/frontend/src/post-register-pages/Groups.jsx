@@ -1,12 +1,13 @@
-import RendevousDescBox from '../components/RendevousDescBox'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostRegisterNav from '../components/Post-RegisterNav';
 import SuggestedGroupCard from '../components/SuggestedGroupCard';
+import RendevousDescBox from '../components/RendevousDescBox';
 import './Groups.css';
 
 function Groups() {
   const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null); // State for the selected group
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,6 +29,14 @@ function Groups() {
 
     fetchSuggestedGroups();
   }, []);
+
+  const handleGroupClick = (group) => {
+    setSelectedGroup(group); // Set the selected group
+  };
+
+  const handleCloseDescBox = () => {
+    setSelectedGroup(null); // Close the description box
+  };
 
   if (loading) {
     return (
@@ -56,40 +65,37 @@ function Groups() {
       <PostRegisterNav />
 
       <div className="main-content">
-        <section className="group-section">
-          <h2>Your Current Group</h2>
-          <div className="row">
-            <div className="notification-box">
-              <h3>Most Recent Notification From Your Host:</h3>
-              {/* Add logic for current group notifications */}
-            </div>
-            <div className="people-box">
-              <h3>People in Your Group:</h3>
-              {/* Add logic for current group people */}
-            </div>
-          </div>
-        </section>
-
         <section className="suggested-groups">
-          <h2>Groups Suggested For You</h2>
-          <p className="subtitle">
-            Curated from your destination &amp; plans
-          </p>
+          <h2 className="section-title">Groups Suggested For You</h2>
+          <p className="subtitle">Curated from your destination &amp; plans</p>
           <div className="groups-grid">
             {suggestedGroupsData.map((group) => (
-              <SuggestedGroupCard
+              <div
                 key={group._id}
-                name={group.name}
-                thumbnailLink={group.thumbnailLink}
-                location={group.location}
-                budget={group.budget}
-                personCount={group.personCount}
-                description={group.description}
-              />
+                onClick={() => handleGroupClick(group)} // Show description box on click
+                style={{ cursor: 'pointer' }}
+              >
+                <SuggestedGroupCard
+                  name={group.name}
+                  thumbnailLink={group.thumbnailLink}
+                  location={group.location}
+                  budget={group.budget}
+                  personCount={group.personCount}
+                  description={group.description}
+                />
+              </div>
             ))}
           </div>
         </section>
       </div>
+
+      {/* Render the RendevousDescBox if a group is selected */}
+      {selectedGroup && (
+        <RendevousDescBox
+          group={selectedGroup}
+          onClose={handleCloseDescBox} // Pass the close function
+        />
+      )}
     </div>
   );
 }

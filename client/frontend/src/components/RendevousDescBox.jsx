@@ -1,6 +1,6 @@
 import { Box, Typography, Button } from "@mui/material";
 
-function RendevousDescBox() {
+function RendevousDescBox({ group, onClose }) {
   return (
     <Box
       sx={{
@@ -34,7 +34,6 @@ function RendevousDescBox() {
         <Typography variant="body1" sx={{ mb: 3, fontFamily: "Maven Pro" }}>
           Rendezvous Members
         </Typography>
-        {/* Profile Picture Placeholders */}
         <Box
           sx={{ display: "flex", justifyContent: "center", gap: "10px", mb: 2 }}
         >
@@ -85,22 +84,14 @@ function RendevousDescBox() {
         </Button>
       </Box>
 
-      {/* Divider */}
-      <Box
-        sx={{
-          bgcolor: "#003033",
-          width: "2px",
-          height: "100%",
-        }}
-      />
+      <Box sx={{ bgcolor: "#003033", width: "2px", height: "100%" }} />
 
-      {/* Event Details Section */}
       <Box sx={{ width: "70%" }}>
         <Typography
           variant="h4"
           sx={{ fontWeight: "bold", mb: 3, fontFamily: "Maven Pro" }}
         >
-          Event Name - Host Name
+          {group.name} - Host Name
         </Typography>
         <Box
           sx={{
@@ -121,7 +112,7 @@ function RendevousDescBox() {
               Location:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
-              Example Location
+              {group.location}
             </Typography>
           </Box>
           <Box sx={{ width: "50%", textAlign: "right" }}>
@@ -132,7 +123,7 @@ function RendevousDescBox() {
               Pricing:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
-              000$ / Person
+              ${group.budget} / Person
             </Typography>
           </Box>
         </Box>
@@ -146,7 +137,7 @@ function RendevousDescBox() {
               Description:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
-              Example Event Description
+              {group.description}
             </Typography>
           </Box>
           <Box sx={{ width: "50%", textAlign: "right" }}>
@@ -169,52 +160,43 @@ function RendevousDescBox() {
           Tags:
         </Typography>
         <Box sx={{ display: "flex", gap: "10px", mt: 2 }}>
-          <Box
-            sx={{
-              px: 2,
-              py: 1,
-              backgroundColor: "#AEE5D8",
-              borderRadius: "20px",
-              fontSize: "14px",
-              fontWeight: "bold",
-              fontFamily: "Maven Pro",
-              color: "#003E33",
-              textAlign: "center",
-            }}
-          >
-            Tag 1
-          </Box>
-          <Box
-            sx={{
-              px: 2,
-              py: 1,
-              backgroundColor: "#DFF3EB",
-              borderRadius: "20px",
-              fontSize: "14px",
-              fontWeight: "bold",
-              fontFamily: "Maven Pro",
-              color: "#003E33",
-              textAlign: "center",
-            }}
-          >
-            Tag 2
-          </Box>
-          <Box
-            sx={{
-              px: 2,
-              py: 1,
-              backgroundColor: "#F2F2F2",
-              borderRadius: "20px",
-              fontSize: "14px",
-              fontWeight: "bold",
-              fontFamily: "Maven Pro",
-              color: "#003E33",
-              textAlign: "center",
-            }}
-          >
-            Tag 3
-          </Box>
+          {group.tags.map((tag, index) => (
+            <Box
+              key={index}
+              sx={{
+                px: 2,
+                py: 1,
+                backgroundColor: "#AEE5D8",
+                borderRadius: "20px",
+                fontSize: "14px",
+                fontWeight: "bold",
+                fontFamily: "Maven Pro",
+                color: "#003E33",
+                textAlign: "center",
+              }}
+            >
+              {tag}
+            </Box>
+          ))}
         </Box>
+
+        {/* Close Button */}
+        <Button
+          onClick={onClose}
+          sx={{
+            mt: 3,
+            backgroundColor: "#003E33",
+            color: "#FFFFFF",
+            "&:hover": { backgroundColor: "#005F4F" },
+            width: "150px",
+            height: "40px",
+            alignSelf: "center",
+            fontFamily: "Maven Pro",
+            fontSize: "14px",
+          }}
+        >
+          Close
+        </Button>
       </Box>
     </Box>
   );
