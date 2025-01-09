@@ -19,6 +19,7 @@ const eventSchema = new Schema({
     personCount: Number,
     name: String,
     description: String,
+    thumbnail: String
 })
 const Event = mongoose.model("event", eventSchema)
 module.exports = Event
