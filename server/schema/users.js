@@ -4,7 +4,8 @@ const findOrCreate = require("mongoose-findorcreate");
 
 var userSchema = new Schema({
     email: String,
-    fullname: String
+    fullname: String,
+    picture: String
 })
 
 userSchema.plugin(findOrCreate);
