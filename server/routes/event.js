@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const passport = require('passport');
 const Event = require("../schema/events.js");
 
 // implement check for private events
@@ -8,14 +9,7 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get("/", async (req, res) => {
-
-    const id = req.body.eventID;
-
-    const result = await Event.findById(id).exec();
-
-    const resultJSON = await result.toJSON();
-
-    await res.status(201).send(resultJSON);
+    await res.status(201).send("");
 })
 
 router.get("/latest", async(req, res) => {
@@ -47,6 +41,27 @@ router.post("/create", async(req, res) => {
     await newEvent.save();
 
     res.status(201).send("New event successfully created");
+})
+
+router.get("/join", (req, res) => {
+
+    const eventID = req.body._id;
+
+    const event = Event.findById(eventID);
+    event.users.push(req.user._id);
+
+    event.save();
+
+    res.status(201).send("Success!");
+});
+
+router.get("/members", async(req, res) => { // request body: eventID
+
+    const event = await Event.findById(req.body.eventID).exec();
+
+    event.users.map((user) => {
+        console.log(); // placeholder before i do anything
+    })
 })
 
 module.exports = router;
