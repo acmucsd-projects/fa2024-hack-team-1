@@ -94,7 +94,7 @@ function SurveyBox({ closeSurvey }) {
                 transform: 'translate(-50%, -50%)',
                 backgroundColor: '#FFFFFF',
                 borderRadius: '20px',
-                boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)',
+                filter: "drop-shadow(0px 0px 5px rgba(0, 0, 0, 50%))",
                 zIndex: 9999,
                 p: '40px',
                 width: '65vw',

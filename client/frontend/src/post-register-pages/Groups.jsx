@@ -61,7 +61,7 @@ function Groups() {
       <>
         <PostRegisterNav />
         <div className="home-container">
-          <h2>Loading Suggested Groups...</h2>
+          <Typography variant="h3">Loading Suggested Groups...</Typography>
         </div>
       </>
     );
@@ -72,7 +72,7 @@ function Groups() {
       <>
         <PostRegisterNav />
         <div className="home-container">
-          <h2>Error: {error}</h2>
+          <Typography variant="h3" sx={{color: '#A92730'}}>Error: {error}</Typography>
         </div>
       </>
     );
@@ -85,7 +85,7 @@ function Groups() {
         <div className="main-content">
         {joinedGroups.length > 0 && (
             <section className="joined-groups" style={{ marginBottom: '40px' }}>
-              <Typography variant="h4">Your Joined Groups</Typography>
+              
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginTop: '16px' }}>
                 {joinedGroups.map((group) => (
                   <SuggestedGroupCard
@@ -108,7 +108,7 @@ function Groups() {
               Groups Suggested For You
             </Typography>
             <Typography
-              variant="body1"
+              variant="p"
               display="block"
               sx={{ mb: '22px', ml: '128px' }}
             >
