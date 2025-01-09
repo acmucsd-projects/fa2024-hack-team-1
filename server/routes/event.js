@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/latest", async(req, res) => {
-    const result = await Event.find().sort({$natural:-1}).limit(10);
+    const result = await Event.find().sort({$natural:-1}).limit(24);
     await res.status(201).send(result);
 })
 

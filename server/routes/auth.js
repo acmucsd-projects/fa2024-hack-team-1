@@ -13,7 +13,8 @@ passport.use(
       callbackURL: "http://localhost:3001/google/callback",
       passReqToCallback: true,
     },
-    function (request, accessToken, refreshToken, profile, done) {
+    (request, accessToken, refreshToken, profile, done) => {
+          
       User.findOrCreate({ email: profile.email }, { fullname: profile.displayName, picture: profile.picture }, done(null, profile));
     }
   )
@@ -27,9 +28,7 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
+router.get("/google",  passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 router.get("/failure", (req, res) => {
@@ -41,7 +40,7 @@ router.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    res.send("Goodbye");
+    res.redirect("http://localhost:6174/home");
   });
 });
 
