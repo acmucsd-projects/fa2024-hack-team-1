@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const passport = require('passport');
 const Event = require("../schema/events.js");
+const User = require("../schema/users.js")
 
 // implement check for private events
 function isLoggedIn(req, res, next) {
@@ -86,9 +86,23 @@ router.get("/members", async(req, res) => { // request body: eventID
 
     const event = await Event.findById(req.body.eventID).exec();
 
-    event.users.map((user) => {
-        console.log(); // placeholder before i do anything
-    })
+    const user_list = [];
+
+    await Promise.all(event.users.map(async (user) => {
+        console.log(user);
+        const userQuery = await User.findById(user);
+        let curr_user = {
+            id: userQuery._id,
+            email: userQuery.email,
+            fullname: userQuery.fullname,
+            picture: userQuery.picture
+        }
+        await user_list.push(curr_user);
+    }))
+
+    console.log(user_list);
+
+    res.status(201).send(user_list);
 })
 
 module.exports = router;
