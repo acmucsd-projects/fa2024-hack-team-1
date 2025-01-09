@@ -1,4 +1,19 @@
 import { Box, Typography, Button } from "@mui/material";
+import axios from "axios";
+
+function RendevousDescBox({ group, onClose }) {
+  const handleJoinGroup = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/group/join", {
+        _id: group._id, // Send group ID to the backend
+      });
+      console.log("Successfully joined the group:", response.data);
+      alert("You have successfully joined the group!");
+    } catch (error) {
+      console.error("Error joining the group:", error);
+      alert("Failed to join the group. Please try again.");
+    }
+  };
 
 function RendevousDescBox({ group, onClose }) {
   return (
@@ -66,6 +81,7 @@ function RendevousDescBox({ group, onClose }) {
           </Typography>
         </Box>
         <Button
+          onClick={handleJoinGroup} // Call the join group function
           sx={{
             backgroundColor: "#AFD450",
             color: "#003E33",
