@@ -2,6 +2,8 @@ import { Box, Typography, Button } from "@mui/material";
 import axios from "axios";
 
 function RendevousDescBox({ group, onClose }) {
+
+    
   const handleJoinGroup = async () => {
     try {
       console.log("test");
@@ -27,6 +29,25 @@ function RendevousDescBox({ group, onClose }) {
     }
   };
 
+  let formattedStart = null;
+  let formattedEnd = null;
+
+  if (group.timeFrame?.start && group.timeFrame?.end) {
+    const startDate = new Date(group.timeFrame.start);
+    const endDate = new Date(group.timeFrame.end);
+
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: group.timeFrame.timeZone, 
+    };
+
+    formattedStart = startDate.toLocaleString('en-US', options);
+    formattedEnd = endDate.toLocaleString('en-US', options);
+  }
+
+
   return (
     <Box
       sx={{
@@ -36,7 +57,7 @@ function RendevousDescBox({ group, onClose }) {
         transform: "translate(-50%, -50%)",
         backgroundColor: "#FFFFFF",
         borderRadius: "20px",
-        boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)",
+        filter: "drop-shadow(0px 0px 5px rgba(0, 0, 0, 50%))",
         zIndex: 9999,
         p: "30px",
         width: "1100px",
@@ -175,22 +196,8 @@ function RendevousDescBox({ group, onClose }) {
               Duration:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
-  {group.timeFrame?.start
-    ? new Date(group.timeFrame.start).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    : ''}
-  {' - '}
-  {group.timeFrame?.end
-    ? new Date(group.timeFrame.end).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    : ''}
-</Typography>
+              {formattedStart} - {formattedEnd}
+            </Typography>
           </Box>
         </Box>
 
