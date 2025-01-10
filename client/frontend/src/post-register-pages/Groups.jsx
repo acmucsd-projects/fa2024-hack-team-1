@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import PostRegisterNav from '../components/Post-RegisterNav';
-import SuggestedGroupCard from '../components/SuggestedGroupCard';
-import RendevousDescBox from '../components/RendevousDescBox';
-import { Typography } from '@mui/material';
-import './Groups.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import PostRegisterNav from "../components/Post-RegisterNav";
+import SuggestedGroupCard from "../components/SuggestedGroupCard";
+import RendevousDescBox from "../components/RendevousDescBox";
+import { Typography } from "@mui/material";
+import "./Groups.css";
 
 function Groups() {
   const [suggestedGroupsData, setSuggestedGroupsData] = useState([]);
@@ -13,17 +13,16 @@ function Groups() {
   const [error, setError] = useState(null);
   const [joinedGroups, setJoinedGroups] = useState([]);
 
-
   useEffect(() => {
     async function fetchJoinedGroups() {
       try {
         // No loading spinner here if you prefer—this can share the same loading if you want
-        const response = await axios.get('http://localhost:3001/event/joined', {
+        const response = await axios.get("http://localhost:3001/event/joined", {
           withCredentials: true,
         });
         setJoinedGroups(response.data); // an array of events
       } catch (err) {
-        console.error('Error fetching joined groups:', err);
+        console.error("Error fetching joined groups:", err);
       }
     }
     fetchJoinedGroups();
@@ -36,11 +35,11 @@ function Groups() {
         setLoading(true);
         setError(null);
 
-        const response = await axios.get('http://localhost:3001/event/latest');
+        const response = await axios.get("http://localhost:3001/event/latest");
         setSuggestedGroupsData(response.data);
       } catch (err) {
-        console.error('Error fetching suggested groups:', err);
-        setError('Unable to fetch suggested groups.');
+        console.error("Error fetching suggested groups:", err);
+        setError("Unable to fetch suggested groups.");
       } finally {
         setLoading(false);
       }
@@ -83,10 +82,17 @@ function Groups() {
       <PostRegisterNav />
       <div className="home-container">
         <div className="main-content">
-        {joinedGroups.length > 0 && (
-            <section className="joined-groups" style={{ marginBottom: '40px' }}>
+          {joinedGroups.length > 0 && (
+            <section className="joined-groups" style={{ marginBottom: "40px" }}>
               <Typography variant="h4">Your Joined Groups</Typography>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginTop: '16px' }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 20,
+                  marginTop: "16px",
+                }}
+              >
                 {joinedGroups.map((group) => (
                   <SuggestedGroupCard
                     key={group._id}
@@ -110,7 +116,7 @@ function Groups() {
             <Typography
               variant="body1"
               display="block"
-              sx={{ mb: '22px', ml: '128px' }}
+              sx={{ mb: "22px", ml: "2px" }}
             >
               Curated from your destination &amp; plans
             </Typography>
@@ -119,7 +125,7 @@ function Groups() {
                 <div
                   key={group._id}
                   onClick={() => handleGroupClick(group)}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                 >
                   <SuggestedGroupCard
                     name={group.name}
@@ -137,7 +143,10 @@ function Groups() {
         </div>
 
         {selectedGroup && (
-          <RendevousDescBox group={selectedGroup} onClose={handleCloseDescBox} />
+          <RendevousDescBox
+            group={selectedGroup}
+            onClose={handleCloseDescBox}
+          />
         )}
       </div>
     </>
