@@ -118,7 +118,7 @@ function RendevousDescBox({ group, onClose }) {
           variant="h4"
           sx={{ fontWeight: "bold", mb: 3, fontFamily: "Maven Pro" }}
         >
-          {group.name} - Host Name
+          {group.name}
         </Typography>
         <Box
           sx={{
@@ -175,8 +175,22 @@ function RendevousDescBox({ group, onClose }) {
               Duration:
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, fontFamily: "Maven Pro" }}>
-              {group.timeFrame?.start} - {group.timeFrame?.end}
-            </Typography>
+  {group.timeFrame?.start
+    ? new Date(group.timeFrame.start).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : ''}
+  {' - '}
+  {group.timeFrame?.end
+    ? new Date(group.timeFrame.end).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : ''}
+</Typography>
           </Box>
         </Box>
 
