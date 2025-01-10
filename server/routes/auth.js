@@ -14,8 +14,11 @@ passport.use(
       passReqToCallback: true,
     },
     (request, accessToken, refreshToken, profile, done) => {
-          
-      User.findOrCreate({ email: profile.email }, { fullname: profile.displayName, picture: profile.picture }, done(null, profile));
+      User.findOrCreate(
+        { email: profile.email },
+        { fullname: profile.displayName, picture: profile.picture },
+        done(null, profile)
+      );
     }
   )
 );
@@ -24,14 +27,16 @@ passport.serializeUser(function (user, done) {
   done(null, user.email);
 });
 
-passport.deserializeUser( async(email, done) => {
-  const user = await User.findOne({email: email});
+passport.deserializeUser(async (email, done) => {
+  const user = await User.findOne({ email: email });
   done(null, user);
 });
 
-router.get("/google",  passport.authenticate("google", { 
-  scope: ["email", "profile"] 
-})
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+  })
 );
 
 router.get("/failure", (req, res) => {
@@ -43,7 +48,7 @@ router.get("/logout", (req, res) => {
     if (err) {
       return next(err);
     }
-    res.redirect("http://localhost:6174/home");
+    res.redirect("http://localhost:6174/");
   });
 });
 
